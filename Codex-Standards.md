@@ -287,3 +287,93 @@ When a repeatable ChatGPT/Codex failure mode or improved development practice is
 - add globally reusable practices to `Codex-Standards.md`;
 - keep project-specific rules in the applicable project; and
 - avoid contradictory duplicated versions of global rules across repositories.
+
+## 15. UX Failure, Recovery, and Stable-State Standard
+
+Every user-facing workflow must account for both successful operation and expected failure and recovery behavior. A workflow is not UI/UX complete merely because its happy path works.
+
+Consider and verify these states when applicable:
+
+- initial or ready;
+- loading or in progress;
+- success;
+- empty or no results;
+- validation error;
+- permission or access denied;
+- recoverable or transient failure;
+- uncertain outcome;
+- retry or recovery;
+- cancellation or back-navigation;
+- session or authentication expiration; and
+- stale data, concurrency, or version conflict.
+
+Apply these failure and recovery principles:
+
+- Failed or cancelled operations must leave the application in a deterministic, stable state.
+- Failures must not leave stale loading indicators, partial sessions, duplicate submissions, orphaned UI state, misleading success indicators, or invalid authorization or tenant context.
+- Users must be able to retry safely without an unnecessary browser or page refresh when retry is appropriate.
+- Retry must not duplicate consequential mutations. Use idempotency, authoritative refresh, or reconciliation where appropriate.
+- Preserve entered user data across recoverable failures when safe and useful.
+- Do not blindly replay a mutation with an uncertain outcome. Refresh or reconcile authoritative state before deciding whether to retry it.
+- Error messages must be actionable and understandable without exposing sensitive security, infrastructure, persistence, stack-trace, or provider internals.
+- Alternate valid actions should remain available after failure where practical.
+- Repeated failures must not accumulate duplicate sessions, callbacks, commands, or mutations.
+
+Authentication and provider workflows must explicitly ensure that:
+
+- failed authentication returns to a deterministic safe state;
+- cancelled authentication returns to a deterministic safe state;
+- interrupted or timed-out authentication returns to a deterministic safe state;
+- stale callback, state, nonce, PKCE, or session artifacts cannot authenticate;
+- fresh authentication can be attempted without an unnecessary browser refresh;
+- failed reauthentication does not corrupt an otherwise valid authoritative session;
+- partial or unauthorized sessions cannot acquire application authority; and
+- provider errors shown to users do not expose sensitive provider or security internals.
+
+Consequential workflows must have at least one realistic failure-and-recovery verification path in addition to happy-path testing.
+
+### UI/UX Completion Rule
+
+A user-facing workflow must not be reported as **UI/UX COMPLETE**, **ACCEPTED**, or equivalent unless:
+
+1. successful behavior is usable;
+2. applicable loading, empty, validation, and permission states are handled;
+3. expected failure modes return to a stable state;
+4. retry and recovery behavior is defined and safe; and
+5. applicable failure and recovery behavior has actually been verified rather than inferred from implementation.
+
+Rendered, live-runtime, physical-device, accessibility, and provider-specific evidence must remain separately classified when applicable. Do not imply that any such verification was performed when it was not.
+
+## 16. Human-Factors and Contextual-Interaction Standard
+
+Do not require users to remember, copy, transcribe, infer, or manually reconstruct information that the system already possesses and can safely present contextually.
+
+- Prefer human-readable contextual selection over raw internal identifiers.
+- Known business identifiers may remain available as searchable power-user inputs.
+- Do not require users to memorize business identifiers when the system can present eligible records.
+- Selection controls must provide enough context to distinguish similar records.
+- Appropriate context may include customer, project, description, date, status, owner, or other relevant business attributes.
+- Default result lists must be bounded, relevant, and sensibly ordered.
+- Use server-side search and pagination for large datasets instead of downloading global directories to the browser.
+- Preserve context when moving between related workflows.
+- Do not make users re-enter information the application already knows.
+- Do not expose persistence identifiers, storage schema, security metadata, or implementation details as routine business inputs unless genuinely required.
+- Destructive, consequential, or ambiguous actions must communicate their expected effects and provide appropriate confirmation and recovery without unnecessary confirmation fatigue.
+
+Evaluate workflow design from the operator's perspective:
+
+- What are they trying to accomplish?
+- What information do they reasonably know?
+- What does the system already know?
+- What can fail?
+- How does the user recover?
+
+### Human-Factors Acceptance Rule
+
+For every new or materially changed user-facing workflow, explicitly audit routine inputs and interactions for avoidable operator-memory dependence. Classify each finding as:
+
+- **FIXED**;
+- **JUSTIFIED POWER-USER INPUT**; or
+- **DEFERRED WITH REASON**.
+
+A workflow with material avoidable operator-memory dependence must not be reported as fully UI/UX complete merely because its underlying operation works.
