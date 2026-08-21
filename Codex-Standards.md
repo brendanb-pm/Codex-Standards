@@ -368,6 +368,92 @@ Evaluate workflow design from the operator's perspective:
 - What can fail?
 - How does the user recover?
 
+## 18. Interactive UX Performance Standard
+
+Normal user-triggered navigation and contextual actions:
+- Immediate UI acknowledgement: ≤100 ms
+- Meaningful content target: ≤500 ms
+- Complete interactive p95: ≤900 ms
+
+Typical component budgets:
+- Client processing: ≤25 ms
+- Network: ≤100 ms
+- Server logic: ≤75 ms
+- Database: ≤150–250 ms
+- Rendering: ≤50 ms
+
+Database hard ceiling for normal interactive reads: 400 ms.
+
+Normal contextual reads should use:
+
+- ≤5 database round trips
+- preferred 1–3 database round trips
+- no N+1 query patterns
+- batching for related records
+- parallel independent reads
+- bounded result sets
+- projection of only required fields
+- lazy loading for secondary/non-visible content
+
+Treat end-user latency as authoritative; component budgets are diagnostic targets and may overlap rather than sum strictly.
+
+Do not weaken existing Sections 15–16.
+Verify numbering, content, diff, clean worktree, commit, push, and remote-main state.
+Commit: "Add interactive UX performance standard"
+Return only files changed, verification, commit SHA, push result, and unresolved issues.
+
+## 17. Model Selection and Compute Optimization Standard
+
+For every Codex execution prompt, recommend the most appropriate currently available model before the execution brief.
+
+The recommendation must optimize for reliability, complexity, risk, and compute efficiency—not simply choose the most powerful model.
+
+Use this format:
+
+RECOMMENDED MODEL: [model]
+REASON: [one concise sentence]
+
+Rules:
+- Use the least compute-intensive model that can reliably complete the task.
+- Recommend a stronger model when complexity, ambiguity, architectural scope, debugging difficulty, or failure risk warrants it.
+- Do not recommend a stronger model merely because it is available.
+- For trivial documentation, mechanical edits, or highly localized changes, prefer the appropriate lighter model.
+- For normal feature implementation, use the appropriate general-purpose coding model.
+- For complex debugging, migrations, security-sensitive changes, major refactors, architecture, or broad cross-cutting work, recommend the stronger reasoning model when justified.
+- Consider currently available model choices such as Terra, Sol, Luna, or their successors; do not permanently tie the standard to obsolete model names.
+- If available model names/capabilities change, recommend the current equivalent based on capability rather than preserving an outdated name.
+- The recommendation is advisory unless the user explicitly requires a particular model.
+- Explicit user model selection takes precedence.
+- Mobile "M:" prompts must keep the recommendation extremely concise.
+- This standard applies across all Codex-built projects, including Atlas, Nexus, All Aboard, and future projects.
+- Project-specific requirements may justify a different recommendation, but the reason must be stated.
+- Avoid unnecessary model escalation to reduce wasted compute and processing cycles.
+
+Add a note that ChatGPT should reassess model choice when the nature of a task materially changes during planning—for example, a simple UI fix becoming a cross-system schema/security change.
+
+Preserve all existing standards and numbering.
+
+VERIFY
+- Section appended only; no unrelated edits.
+- Existing "M:"/"D:" behavior preserved.
+- Standard is project-neutral and applies globally.
+- Model names are treated as changeable, not permanently hardcoded capability tiers.
+- Diff clean.
+
+Commit and push to "main".
+
+Commit:
+"Add model selection and compute optimization standard"
+
+Return only:
+
+- section number
+- file changed
+- verification PASS/FAIL
+- commit SHA
+- push result
+- unresolved issues
+
 ### Human-Factors Acceptance Rule
 
 For every new or materially changed user-facing workflow, explicitly audit routine inputs and interactions for avoidable operator-memory dependence. Classify each finding as:
