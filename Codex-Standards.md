@@ -18,7 +18,7 @@ It is written for both humans and AI coding agents. Project-specific rules may e
 
 ## 2. Story and Work-Item Header
 
-Whenever a prompt corresponds to a numbered story, issue, ticket, requirement, or work item, line 1 of the prompt must contain only its identifier, written exactly as tracked by the project. Do not add `Story:`, `Ticket:`, `#`, or any similar prefix. A blank line must follow the identifier.
+Whenever a prompt corresponds to a numbered story, issue, ticket, requirement, or work item, its first identity line must contain only its identifier, written exactly as tracked by the project. The optional model/priority change alert defined in Section 17 is the sole permitted line before that identity line. Do not add `Story:`, `Ticket:`, `#`, or any similar prefix. A blank line must follow the identifier.
 
 ```text
 MOS-121
@@ -34,9 +34,13 @@ Other valid first lines include `NEXUS-014` and `ATLAS-087`. A prompt with no as
 Use this structure by default:
 
 ```text
+[!!! - Model Name - Priority when changed from the immediately preceding brief]
+
 [WORK-ITEM-ID when applicable]
 
 GOAL
+
+[MODEL / PRIORITY when no !!! alert]
 
 CONTEXT
 
@@ -48,6 +52,8 @@ ACCEPTANCE
 
 VERIFY
 
+DYNAMIC EXECUTION
+
 OUTPUT
 ```
 
@@ -57,7 +63,10 @@ OUTPUT
 - **CONSTRAINTS:** Hard architectural, behavioral, branch, compatibility, security, or exclusion rules.
 - **ACCEPTANCE:** Objectively testable completion criteria.
 - **VERIFY:** Checks Codex must actually perform.
+- **DYNAMIC EXECUTION:** Compact reference to the canonical Dynamic Execution Policy in Section 19; do not repeat the full policy.
 - **OUTPUT:** Concise completion report Codex must return.
+
+Model and priority recommendations, their placement, and the change-alert convention are defined in Section 17. Follow the prompt order in Sections 17 and 19.
 
 ## 4. ChatGPT and Codex Responsibilities
 
@@ -368,14 +377,58 @@ Evaluate workflow design from the operator's perspective:
 - What can fail?
 - How does the user recover?
 
+### Human-Factors Acceptance Rule
+
+For every new or materially changed user-facing workflow, explicitly audit routine inputs and interactions for avoidable operator-memory dependence. Classify each finding as:
+
+- **FIXED**;
+- **JUSTIFIED POWER-USER INPUT**; or
+- **DEFERRED WITH REASON**.
+
+A workflow with material avoidable operator-memory dependence must not be reported as fully UI/UX complete merely because its underlying operation works.
+
+## 17. Model / Priority Recommendation Standard
+
+Every ChatGPT-generated Codex Execution Brief must specify a recommended model and execution priority. Recommendations are advisory unless the current user explicitly selects a model or priority; explicit user selection takes precedence.
+
+Base recommendations on reasoning complexity, architecture impact, security risk, code-change surface, ambiguity, regression risk, and the expected value of additional compute. Use the least compute-intensive currently available model and priority that can reliably complete the task. Do not recommend expensive compute merely because it is available.
+
+Use current capability equivalents rather than permanently binding this standard to model names. A stronger model or priority is justified for complex debugging, migrations, security-sensitive changes, major refactors, architecture, or broad cross-cutting work. A lighter option is appropriate for trivial documentation, mechanical edits, and highly localized changes when reliable.
+
+### Prompt Convention
+
+If the recommended model or priority changes from the immediately preceding Codex Execution Brief, line 1 must be:
+
+```text
+!!! - <Model Name> - <Priority>
+```
+
+The work-item or execution-brief identity follows after a blank line. If neither recommendation changes, do not use the `!!!` header. Instead, place this immediately after `GOAL`:
+
+```text
+MODEL / PRIORITY
+
+<Model Name> — <Priority>
+```
+
+This convention applies in both Mobile and Desktop Mode. Mobile Mode keeps the recommendation compact; it does not omit it.
+
+### Execution Boundary
+
+If Codex discovers during execution that the task materially exceeds the capability or risk profile implied by the launched model or priority, it must not falsely claim to switch the host model or execution priority. It may continue only when safe under the current run; otherwise, stop at an appropriate boundary and report the recommended model and priority for a continuation run.
+
+If the task proves substantially simpler than expected, reduce unnecessary work under Section 19 even though the externally selected model and priority remain unchanged.
+
 ## 18. Interactive UX Performance Standard
 
 Normal user-triggered navigation and contextual actions:
+
 - Immediate UI acknowledgement: ≤100 ms
 - Meaningful content target: ≤500 ms
 - Complete interactive p95: ≤900 ms
 
 Typical component budgets:
+
 - Client processing: ≤25 ms
 - Network: ≤100 ms
 - Server logic: ≤75 ms
@@ -397,69 +450,39 @@ Normal contextual reads should use:
 
 Treat end-user latency as authoritative; component budgets are diagnostic targets and may overlap rather than sum strictly.
 
-Do not weaken existing Sections 15–16.
-Verify numbering, content, diff, clean worktree, commit, push, and remote-main state.
-Commit: "Add interactive UX performance standard"
-Return only files changed, verification, commit SHA, push result, and unresolved issues.
+## 19. Dynamic Execution Policy and Compact Prompt Reference
 
-## 17. Model Selection and Compute Optimization Standard
+Codex must continuously reassess complexity, risk, scope, and verification needs during execution. This policy complements the companion efficiency standard's compute-escalation, proportional-verification, fail-fast, and stop-when-acceptance-met rules; it does not replace them.
 
-For every Codex execution prompt, recommend the most appropriate currently available model before the execution brief.
+When work remains localized and well understood, continue efficiently, use proportional verification, and stop when acceptance criteria are satisfied. Do not consume compute unnecessarily.
 
-The recommendation must optimize for reliability, complexity, risk, and compute efficiency—not simply choose the most powerful model.
+If execution discovers materially increased risk or scope, including authentication or authorization changes, tenancy or security boundaries, schema or migrations, infrastructure changes, cross-cutting architecture, unexpected dependency changes, a broad regression surface, or material product ambiguity, Codex must:
 
-Use this format:
+- increase inspection and reasoning depth;
+- expand verification proportionally;
+- inspect affected architecture before mutation;
+- avoid silently expanding product scope; and
+- stop and report material ambiguity rather than inventing requirements.
 
-RECOMMENDED MODEL: [model]
-REASON: [one concise sentence]
+If the task becomes materially simpler than expected, reduce unnecessary inspection and verification, use the least-complex correct implementation, and stop once acceptance is satisfied.
 
-Rules:
-- Use the least compute-intensive model that can reliably complete the task.
-- Recommend a stronger model when complexity, ambiguity, architectural scope, debugging difficulty, or failure risk warrants it.
-- Do not recommend a stronger model merely because it is available.
-- For trivial documentation, mechanical edits, or highly localized changes, prefer the appropriate lighter model.
-- For normal feature implementation, use the appropriate general-purpose coding model.
-- For complex debugging, migrations, security-sensitive changes, major refactors, architecture, or broad cross-cutting work, recommend the stronger reasoning model when justified.
-- Consider currently available model choices such as Terra, Sol, Luna, or their successors; do not permanently tie the standard to obsolete model names.
-- If available model names/capabilities change, recommend the current equivalent based on capability rather than preserving an outdated name.
-- The recommendation is advisory unless the user explicitly requires a particular model.
-- Explicit user model selection takes precedence.
-- Mobile "M:" prompts must keep the recommendation extremely concise.
-- This standard applies across all Codex-built projects, including Atlas, Nexus, All Aboard, and future projects.
-- Project-specific requirements may justify a different recommendation, but the reason must be stated.
-- Avoid unnecessary model escalation to reduce wasted compute and processing cycles.
+### Compact Prompt-Reference Convention
 
-Add a note that ChatGPT should reassess model choice when the nature of a task materially changes during planning—for example, a simple UI fix becoming a cross-system schema/security change.
+Do not repeat the complete Dynamic Execution Policy in a Codex Execution Brief. Instead include exactly:
 
-Preserve all existing standards and numbering.
+```text
+DYNAMIC EXECUTION
 
-VERIFY
-- Section appended only; no unrelated edits.
-- Existing "M:"/"D:" behavior preserved.
-- Standard is project-neutral and applies globally.
-- Model names are treated as changeable, not permanently hardcoded capability tiers.
-- Diff clean.
+Apply the canonical Dynamic Execution Policy from Codex-Standards.md.
+```
 
-Commit and push to "main".
+Future prompt construction follows this order:
 
-Commit:
-"Add model selection and compute optimization standard"
+1. Optional `!!! - Model Name - Priority` first-line change alert.
+2. Work-item or execution-brief identity.
+3. `GOAL`.
+4. `MODEL / PRIORITY` when unchanged.
+5. Repository, context, scope, and other applicable execution-brief sections.
+6. The compact `DYNAMIC EXECUTION` reference.
 
-Return only:
-
-- section number
-- file changed
-- verification PASS/FAIL
-- commit SHA
-- push result
-- unresolved issues
-
-### Human-Factors Acceptance Rule
-
-For every new or materially changed user-facing workflow, explicitly audit routine inputs and interactions for avoidable operator-memory dependence. Classify each finding as:
-
-- **FIXED**;
-- **JUSTIFIED POWER-USER INPUT**; or
-- **DEFERRED WITH REASON**.
-
-A workflow with material avoidable operator-memory dependence must not be reported as fully UI/UX complete merely because its underlying operation works.
+Do not duplicate the canonical policy in prompts.
