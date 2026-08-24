@@ -67,7 +67,7 @@ OUTPUT
 - **VERIFY:** Checks Codex must actually perform.
 - **DYNAMIC EXECUTION:** Compact reference to the canonical Dynamic Execution Policy in Section 19; do not repeat the full policy.
 - **STANDARDS:** Compact reference to the canonical standards-loading and enforcement policy in Section 20; do not repeat the full policy.
-- **OUTPUT:** Concise completion report Codex must return. Validate claimed completion against applicable standards before reporting `COMPLETE`, `PASS`, or equivalent, and include applicable reporting from Sections 17 and 20.
+- **OUTPUT:** Concise completion report Codex must return. Validate claimed completion against applicable standards before reporting `COMPLETE`, `PASS`, or equivalent, and include applicable reporting from Sections 17, 20, and 22. For substantive story work, emit exactly one compact `EFF` evidence line as defined in Section 22 and no extra telemetry narrative.
 
 Model and priority recommendations, their placement, and the change-alert convention are defined in Section 17. Follow the prompt order in Sections 17, 19, and 20.
 
@@ -537,6 +537,8 @@ When applicable, completion reports must concisely include:
 - whether switching was technically possible; and
 - work deliberately reduced or avoided.
 
+For substantive story work, apply the compact evidence-line requirement in Section 22. Do not add telemetry narrative beyond that line.
+
 ## 21. Agentic Repository, Deterministic Enforcement, and Efficiency Measurement Standard
 
 This standard complements the companion efficiency standard, Sections 17, 19, and 20, and the verification standard. It does not weaken or duplicate their requirements.
@@ -566,9 +568,6 @@ This standard complements the companion efficiency standard, Sections 17, 19, an
 
 Do not assume added orchestration or standards improve efficiency. Measure representative workloads when practical, using proportionate evidence such as:
 
-- first-pass acceptance;
-- executions or retries per story;
-- rework cycles;
 - elapsed execution time;
 - human interventions;
 - token, credit, or compute usage when exposed;
@@ -585,8 +584,43 @@ Do not assume added orchestration or standards improve efficiency. Measure repre
 - Remove or simplify standards and orchestration that add cost without material value.
 - Keep measurement proportional; do not create costly telemetry bureaucracy.
 
+The measurement recommendations in this section do not authorize Codex to calculate or report orchestration-side metrics reserved by Section 22.
+
 ### Compact Operating Principle
 
 ```text
 MIN CONTEXT -> DETERMINISTIC CHECKS -> LOWEST RELIABLE COMPUTE -> MEASURE OUTCOME
 ```
+
+## 22. Prospective Product Evidence Measurement Contract
+
+This contract applies prospectively to product repositories and complements Sections 3, 20, and 21. It does not create a composite efficiency score.
+
+### Evidence Rules
+
+- Classify evidence as `OBSERVED`, `DERIVED`, or `NOT AVAILABLE` when classification is needed.
+- Never infer runtime model, priority, tokens, cost, or elapsed time.
+- Prefer deterministic extraction over LLM-generated reporting.
+- Keep evidence compact; do not add verbose telemetry.
+
+For substantive story work, Codex must emit exactly one compact evidence line:
+
+```text
+EFF {"story":"ID","files":N,"unrelated":N,"verify":"PASS|FAIL","compliance":"PASS|FAIL","commit":"SHA|null","push":"PASS|FAIL|NA","model":null|"X","priority":null|"X"}
+```
+
+Set `model` and `priority` to `null` unless the runtime explicitly exposes the values actually used. Do not emit a second `EFF` line or telemetry narrative.
+
+Codex must not calculate or report prompt characters, `M:` or `D:` mode, single-paste behavior, canonical-reference usage, runs or corrections, or first-pass acceptance. Those are orchestration-side metrics.
+
+### Product Repository Adoption
+
+Current and future product repositories must adopt a concise root `AGENTS.md` contract that:
+
+- loads and enforces canonical standards;
+- applies Dynamic Execution;
+- emits the compact `EFF` line for substantive story work;
+- adds no extra telemetry narrative; and
+- preserves project-specific rules.
+
+Do not make application or runtime changes to adopt this contract. If existing compliance tooling can cheaply validate applicable evidence, extend it; otherwise, do not create tooling solely for ceremony.
