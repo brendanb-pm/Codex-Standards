@@ -64,7 +64,7 @@ OUTPUT
 - **ACCEPTANCE:** Objectively testable completion criteria.
 - **VERIFY:** Checks Codex must actually perform.
 - **DYNAMIC EXECUTION:** Compact reference to the canonical Dynamic Execution Policy in Section 19; do not repeat the full policy.
-- **OUTPUT:** Concise completion report Codex must return.
+- **OUTPUT:** Concise completion report Codex must return. Every completion report or work summary must end with the mandatory `EXECUTION METADATA` footer defined in Section 17.
 
 Model and priority recommendations, their placement, and the change-alert convention are defined in Section 17. Follow the prompt order in Sections 17 and 19.
 
@@ -418,6 +418,23 @@ This convention applies in both Mobile and Desktop Mode. Mobile Mode keeps the r
 If Codex discovers during execution that the task materially exceeds the capability or risk profile implied by the launched model or priority, it must not falsely claim to switch the host model or execution priority. It may continue only when safe under the current run; otherwise, stop at an appropriate boundary and report the recommended model and priority for a continuation run.
 
 If the task proves substantially simpler than expected, reduce unnecessary work under Section 19 even though the externally selected model and priority remain unchanged.
+
+### Completion Report Metadata
+
+Every Codex completion report or work summary must end with this concise, consistent footer:
+
+```text
+EXECUTION METADATA
+
+Model: [model name]
+Priority: [priority level]
+```
+
+- Report the model and priority actually used when known; do not report only a recommendation.
+- Never infer or fabricate either value. When either value is unknown, report `UNKNOWN` for that value.
+- If a recommendation changed before execution, report the final values actually used.
+- Do not claim a mid-run model or priority switch unless the platform explicitly confirms it.
+- The footer applies across all projects and remains mandatory in Mobile Mode; do not omit it for brevity.
 
 ## 18. Interactive UX Performance Standard
 
