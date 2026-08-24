@@ -536,3 +536,57 @@ When applicable, completion reports must concisely include:
 - recommendation changes;
 - whether switching was technically possible; and
 - work deliberately reduced or avoided.
+
+## 21. Agentic Repository, Deterministic Enforcement, and Efficiency Measurement Standard
+
+This standard complements the companion efficiency standard, Sections 17, 19, and 20, and the verification standard. It does not weaken or duplicate their requirements.
+
+### Repository Legibility and Progressive Context
+
+- A root `AGENTS.md` is the concise project map and enforcement entry point, not a full manual.
+- Organize durable context into focused repository documentation for architecture, product and specifications, ADRs, security, data, UX, operations, and verification.
+- Load the minimum authoritative context needed for the current execution block; expand only as required.
+- Prefer scoped or local instructions for subsystem-specific rules.
+- Do not preload an entire knowledge base when targeted retrieval suffices.
+- Preserve durable decisions in repository documentation, not transient conversation summaries.
+- Avoid duplicated or stale instructions across files.
+- An agent must know where to retrieve the source of truth; it need not carry all truth in its prompt or active context.
+
+### Deterministic-First and Mechanical Invariants
+
+- If deterministic tooling can reliably perform or verify a requirement, prefer it over repeated LLM reasoning.
+- Repeated agent instruction or failure patterns should graduate to lint, tests, scripts, hooks, CI, schemas, or structural checks when practical.
+- Suitable candidates include formatting, import boundaries, required wrappers, schema rules, compliance checks, query constraints, and generated artifacts.
+- LLM reasoning determines where judgment is needed; deterministic tooling executes or checks predictable work.
+- Mechanical checks must produce actionable failure output where practical.
+- Do not falsely mechanize subjective or manual UX, security, device, provider, or human-review requirements.
+- Do not repeatedly spend model compute reasoning about invariant rules that tooling can enforce.
+
+### Agentic Efficiency Measurement
+
+Do not assume added orchestration or standards improve efficiency. Measure representative workloads when practical, using proportionate evidence such as:
+
+- first-pass acceptance;
+- executions or retries per story;
+- rework cycles;
+- elapsed execution time;
+- human interventions;
+- token, credit, or compute usage when exposed;
+- unnecessary files touched;
+- redundant tests or operations;
+- escaped defects;
+- standards violations; and
+- verification strength.
+
+- Standards or workflows that add recurring execution cost must provide corresponding reliability, quality, safety, or compute benefit.
+- Periodically compare representative workloads with simpler or cheaper execution paths.
+- Test cheaper model, priority, or reasoning configurations when acceptance and verification quality remain equivalent.
+- Prefer empirical routing over permanently assigning story classes to expensive models.
+- Remove or simplify standards and orchestration that add cost without material value.
+- Keep measurement proportional; do not create costly telemetry bureaucracy.
+
+### Compact Operating Principle
+
+```text
+MIN CONTEXT -> DETERMINISTIC CHECKS -> LOWEST RELIABLE COMPUTE -> MEASURE OUTCOME
+```
