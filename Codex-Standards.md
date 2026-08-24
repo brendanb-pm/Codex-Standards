@@ -52,6 +52,8 @@ ACCEPTANCE
 
 VERIFY
 
+STANDARDS
+
 DYNAMIC EXECUTION
 
 OUTPUT
@@ -64,9 +66,10 @@ OUTPUT
 - **ACCEPTANCE:** Objectively testable completion criteria.
 - **VERIFY:** Checks Codex must actually perform.
 - **DYNAMIC EXECUTION:** Compact reference to the canonical Dynamic Execution Policy in Section 19; do not repeat the full policy.
-- **OUTPUT:** Concise completion report Codex must return. Every completion report or work summary must end with the mandatory `EXECUTION METADATA` footer defined in Section 17.
+- **STANDARDS:** Compact reference to the canonical standards-loading and enforcement policy in Section 20; do not repeat the full policy.
+- **OUTPUT:** Concise completion report Codex must return. Validate claimed completion against applicable standards before reporting `COMPLETE`, `PASS`, or equivalent, and include applicable reporting from Sections 17 and 20.
 
-Model and priority recommendations, their placement, and the change-alert convention are defined in Section 17. Follow the prompt order in Sections 17 and 19.
+Model and priority recommendations, their placement, and the change-alert convention are defined in Section 17. Follow the prompt order in Sections 17, 19, and 20.
 
 ## 4. ChatGPT and Codex Responsibilities
 
@@ -419,22 +422,11 @@ If Codex discovers during execution that the task materially exceeds the capabil
 
 If the task proves substantially simpler than expected, reduce unnecessary work under Section 19 even though the externally selected model and priority remain unchanged.
 
-### Completion Report Metadata
+### Actual-vs-Recommended Reporting
 
-Every Codex completion report or work summary must end with this concise, consistent footer:
+When a completion report or work summary includes model or priority information, report the values actually used only when the runtime confirms them; do not report only a recommendation. Never infer or fabricate either value. Do not emit an `UNKNOWN` runtime-metadata footer.
 
-```text
-EXECUTION METADATA
-
-Model: [model name]
-Priority: [priority level]
-```
-
-- Report the model and priority actually used when known; do not report only a recommendation.
-- Never infer or fabricate either value. When either value is unknown, report `UNKNOWN` for that value.
-- If a recommendation changed before execution, report the final values actually used.
-- Do not claim a mid-run model or priority switch unless the platform explicitly confirms it.
-- The footer applies across all projects and remains mandatory in Mobile Mode; do not omit it for brevity.
+If a recommendation changed before execution, report the final values actually used only when confirmed. Never claim a mid-run model or priority switch unless the runtime explicitly confirms it.
 
 ## 18. Interactive UX Performance Standard
 
@@ -469,9 +461,9 @@ Treat end-user latency as authoritative; component budgets are diagnostic target
 
 ## 19. Dynamic Execution Policy and Compact Prompt Reference
 
-Codex must continuously reassess complexity, risk, scope, and verification needs during execution. This policy complements the companion efficiency standard's compute-escalation, proportional-verification, fail-fast, and stop-when-acceptance-met rules; it does not replace them.
+Codex must reassess complexity, risk, scope, uncertainty, verification needs, and compute efficiency before each materially distinct execution block, not before every command. This policy complements the companion efficiency standard's compute-escalation, proportional-verification, fail-fast, and stop-when-acceptance-met rules; it does not replace them.
 
-When work remains localized and well understood, continue efficiently, use proportional verification, and stop when acceptance criteria are satisfied. Do not consume compute unnecessarily.
+For the next block, recommend the lowest-cost reliable model and priority. When work remains localized and well understood, continue efficiently, use proportional verification, and stop when acceptance criteria are satisfied. Do not consume compute unnecessarily.
 
 If execution discovers materially increased risk or scope, including authentication or authorization changes, tenancy or security boundaries, schema or migrations, infrastructure changes, cross-cutting architecture, unexpected dependency changes, a broad regression surface, or material product ambiguity, Codex must:
 
@@ -483,14 +475,23 @@ If execution discovers materially increased risk or scope, including authenticat
 
 If the task becomes materially simpler than expected, reduce unnecessary inspection and verification, use the least-complex correct implementation, and stop once acceptance is satisfied.
 
+### Compute-Aware Continuation
+
+If a substantially cheaper model can reliably handle a meaningful remaining execution block and the runtime cannot switch, stop at a clean boundary only when the expected savings exceed the continuation overhead. Do not stop for trivial remaining edits, tests, diff review, commit or push, or reporting.
+
+When stopping for a continuation, return a concise continuation brief containing completed work, remaining work, repository, branch and state, the next model and priority recommendation, outstanding verification, and material risks.
+
 ### Compact Prompt-Reference Convention
 
-Do not repeat the complete Dynamic Execution Policy in a Codex Execution Brief. Instead include exactly:
+Do not repeat the complete Dynamic Execution or standards-enforcement policies in a Codex Execution Brief. Instead include exactly:
 
 ```text
+STANDARDS
+Load and enforce canonical standards + project AGENTS.md.
+
 DYNAMIC EXECUTION
 
-Apply the canonical Dynamic Execution Policy from Codex-Standards.md.
+Apply canonical Dynamic Execution continuously.
 ```
 
 Future prompt construction follows this order:
@@ -500,6 +501,38 @@ Future prompt construction follows this order:
 3. `GOAL`.
 4. `MODEL / PRIORITY` when unchanged.
 5. Repository, context, scope, and other applicable execution-brief sections.
-6. The compact `DYNAMIC EXECUTION` reference.
+6. The compact `STANDARDS` and `DYNAMIC EXECUTION` references.
 
 Do not duplicate the canonical policy in prompts.
+
+## 20. Standards Loading, Enforcement, and Compliance Standard
+
+Referencing standards is not proof that they were loaded. For substantive work, Codex must actually load the applicable canonical standards and project `AGENTS.md` instructions before implementation. A root `AGENTS.md` should be the compact project enforcement entry point; it must not duplicate the full standards manual.
+
+- Where practical, identify standards freshness with a SHA, version, or lock.
+- If required standards cannot be loaded or conflicts cannot be resolved, fail closed rather than silently approximating them.
+- Loading standards is not compliance validation. Before claiming `COMPLETE`, `PASS`, or equivalent, validate work and output against the applicable standards.
+- Run project compliance scripts when `AGENTS.md` requires them.
+- Never claim subjective or manual UX, security, device, or provider checks were mechanically verified.
+- Do not repeatedly reload unchanged standards during one run.
+- Prevent standards drift; version or lock local synchronized copies when they are used.
+
+Recommended project pattern:
+
+```text
+AGENTS.md
+.codex/standards-lock.json
+scripts/check-codex-compliance
+```
+
+`.codex/standards-lock.json` and `scripts/check-codex-compliance` are optional unless adopted by the project.
+
+### Completion Reporting
+
+When applicable, completion reports must concisely include:
+
+- standards compliance status;
+- material Dynamic Execution reassessments;
+- recommendation changes;
+- whether switching was technically possible; and
+- work deliberately reduced or avoided.
