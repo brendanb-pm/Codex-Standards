@@ -44,6 +44,8 @@ A numbered story/ticket begins with its exact tracked identifier and no prefix s
 
 Keep briefs execution-oriented. Put broad reasoning, tradeoff analysis, and story development outside the Codex brief when possible.
 
+For a materially phased story, identify `PHASE A`, `MIDSTREAM QA/QC GATE`, `PHASE B`, and `FINAL QA/QC GATE` when those labels improve execution clarity. Do not require phase labels for trivial single-phase work.
+
 ### Mobile / Desktop prompt mode
 
 - `M:` activates persistent Mobile Mode: compress aggressively while preserving implementation-critical constraints, acceptance, and verification.
@@ -152,6 +154,25 @@ Reuse established context within the task. Do not repeatedly rediscover reposito
 
 Prefer patching over rewriting. Avoid unrelated refactors, cleanup, renaming, formatting churn, speculative abstraction, and duplicate helpers/tests/features.
 
+### Phased execution + midstream QA/QC
+
+When a coherent story contains dependent implementation phases, prefer one continuous execution run with explicit internal phases and mandatory midstream QA/QC gates. Do not split the story into separate runs solely to validate an intermediate phase.
+
+Default pattern:
+
+1. Implement the prerequisite or foundation phase.
+2. Run a midstream QA/QC gate proportional to that phase's risk.
+3. On `PASS`, continue immediately into the next phase in the same run.
+4. On a remediable `FAIL`, repair defects, rerun the affected gate verification, and continue once it passes.
+5. Repeat phase/gate cycles as appropriate.
+6. Run a final QA/QC gate before completion.
+
+A midstream gate is an internal checkpoint, not a default stop. Stop only when safe continuation is materially blocked by an unresolved product/business decision, a missing prerequisite, an unsafe architecture conflict, a security or data-integrity issue that cannot be safely remediated within scope, required production/live/external acceptance, scope expansion large enough to invalidate the planned execution, or an execution environment that cannot safely perform the next phase.
+
+Prefer a separate story or run when the next phase materially requires a different model, priority, or execution profile; a human/product decision or live/production/external acceptance is required; the first phase intentionally creates an independently deployable or releasable dependency; the combined story is too large or incoherent for one reliable context; or explicit user instruction requires separate execution. If a materially different execution profile is required, preserve completed work and use the clean-boundary restart rule in Section 4; never claim an in-run model or priority switch that did not occur.
+
+Within a continuous phased run, reuse established repository, standards, architecture, test, and dependency context. Avoid duplicate documentation, repeated broad regression without material changes, and unnecessary commit/push boundaries. This is an efficiency rule, not a relaxation of QA, correctness, security, or required execution resources.
+
 ## 7. Verification
 
 Implementation and verification are distinct. Never claim a requirement works merely because implementing code exists.
@@ -165,6 +186,10 @@ Use proportional verification:
 5. full suite only when change surface, isolation, project gates, or release requirements justify it.
 
 Run inexpensive checks before expensive checks. Do not rerun a passing check unless relevant code changed afterward, another fix could affect it, or final acceptance explicitly requires a fresh run.
+
+For a midstream gate, select checks proportional to the phase's risk, such as focused automated tests, architecture or contract-invariant review, security/auth/tenant-isolation tests, migration/data-integrity checks, concurrency/idempotency checks, rendered UI or accessibility validation, adversarial cases, or provider/external-system contract tests. Where the environment supports it and risk justifies it, use a fresh reviewer/subagent or independent adversarial pass; do not require extra reviewers ceremonially for low-risk work.
+
+Midstream gates do not replace final verification. Before declaring the complete story `PASS`, verify integrated behavior across phases, run the proportional final regression required by the total change surface, review final diff/status, and satisfy repository or project release gates.
 
 Use truthful statuses where useful: `PASS`, `FAIL`, `NOT RUN`, `NOT APPLICABLE`.
 
@@ -201,6 +226,8 @@ Keep completion reports concise and decision-useful. Include only applicable ite
 - branch/commit/push state;
 - loaded modules;
 - blockers, known limitations, or deferred scope.
+
+For a phased story, briefly identify completed phases, each midstream gate result, gate remediations, the final gate result, and any stop/escalation reason. Keep this compatible with the existing evidence line below.
 
 Do not reproduce the prompt or internal reasoning.
 
