@@ -218,26 +218,54 @@ Important product requirements, architecture decisions, contracts, security requ
 
 Do not create documentation merely for ceremony. Update durable docs when the change materially alters a contract, architecture, operational procedure, or reusable rule.
 
-## 11. Completion Report
+## 11. EFF v2 — Delivery Telemetry
 
-Keep completion reports concise and decision-useful. Include only applicable items:
-- what changed;
-- verification performed/results;
-- branch/commit/push state;
-- loaded modules;
-- blockers, known limitations, or deferred scope.
+For every substantive implementation, remediation, or verification run, emit
+exactly one compact machine-readable `EFF` line at completion.
 
-For a phased story, briefly identify completed phases, each midstream gate result, gate remediations, the final gate result, and any stop/escalation reason. Keep this compatible with the existing evidence line below.
+EFF v2 separates:
+- routing intent;
+- runtime evidence;
+- deterministic repository/timing evidence; and
+- later outcome evidence.
 
-Do not reproduce the prompt or internal reasoning.
+Use:
 
-For substantive story work, emit exactly one compact evidence line and no extra telemetry narrative:
+EFF {"v":2,"project":"PROJECT","story":"ID","attempt":1,"run_type":"Initial|Correction|Remediation|Verification","tier":"T0|T1|T2|T3","requested_model":null|"X","requested_priority":null|"Low|Medium|High","runtime_model":null|"X","runtime_priority":null|"X","standards_sha":"SHA|null","started_at":"ISO-8601|null","ended_at":"ISO-8601|null","elapsed_sec":N|null,"base_sha":"SHA|null","final_sha":"SHA|null","files":N|null,"insertions":N|null,"deletions":N|null,"unrelated":N|null,"verify":"PASS|FAIL|BLOCKED","verification_failures":N|null,"compliance":"PASS|FAIL|PARTIAL","commit":"SHA|null","push":"PASS|FAIL|NA","blocker":null|"description"}
 
-```text
-EFF {"story":"ID","files":N,"unrelated":N,"verify":"PASS|FAIL","compliance":"PASS|FAIL","commit":"SHA|null","push":"PASS|FAIL|NA","model":null|"X","priority":null|"X"}
-```
+Rules:
 
-Set `model` and `priority` to `null` unless the runtime explicitly exposes the values actually used. Never infer token usage, elapsed time, cost, runtime model, or runtime priority.
+1. `project` and `story` identify the durable work unit.
+2. `attempt=1` with `run_type=Initial` is the first implementation attempt.
+3. Corrections, remediations, and independent verification retain the same story
+   identifier and increment `attempt`.
+4. `tier` records the execution tier selected under Section 4.
+5. `requested_model` and `requested_priority` record routing intent when explicitly
+   selected before execution.
+6. `runtime_model` and `runtime_priority` MUST remain null unless explicitly
+   exposed by the execution environment.
+7. `started_at` and `ended_at` must come from deterministic execution/harness
+   timestamps when available. Never estimate elapsed duration from model reasoning.
+8. `elapsed_sec` is derived from those timestamps, not self-estimated.
+9. `base_sha`, `final_sha`, file count, insertions, deletions, and unrelated-file
+   count should come from repository evidence when available.
+10. Verification reports only checks actually performed.
+11. `verification_failures` counts failed verification gates/check executions
+    during that attempt when deterministically observable.
+12. Compliance reports PASS, FAIL, or PARTIAL against the standards actually loaded.
+13. Tokens and compute cost are NOT part of the mandatory EFF line unless a future
+    runtime reliably exposes them. Never infer either.
+14. PR opened-to-merge time is integration latency and must be tracked separately;
+    never describe it as development or coding cycle time.
+15. Later outcomes — escaped defects, eventual rework, rollback/revert, production
+    acceptance — are appended by orchestration/Git evidence after the run rather
+    than fabricated at completion.
+16. Use null for unavailable evidence. Absence of evidence is not zero.
+17. The EFF line is telemetry, not a second narrative completion report.
+
+ChatGPT/orchestration may combine the EFF line with prompt metadata, Git/CI evidence,
+PR metadata, and later acceptance outcomes and write the resulting record to the
+cross-project AI Delivery metrics ledger.
 
 ## 12. Evolution
 
