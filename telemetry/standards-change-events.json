@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "events": [
+    {
+      "change_id": "STANDARDS-2026-09-11",
+      "effective_date": "2026-09-11",
+      "previous_standards_sha": "6662773be213c56a0e6a2179c3be060bc04170bb",
+      "new_standards_sha": "ce664dfbd36f7522fe8049fdd36230384a8e0e8f",
+      "title": "Agentic Development and Context Optimization",
+      "summary": "Consolidated context hierarchy, context/output efficiency, YAGNI, lifecycle, deterministic verification, independent verification by risk, completion states, and agentic operations.",
+      "change_categories": [
+        "context",
+        "agentic_execution",
+        "verification",
+        "recovery",
+        "parallel_agents",
+        "autonomy",
+        "efficiency"
+      ],
+      "affected_measurements": [
+        "attempts_per_story",
+        "correction_rate",
+        "remediation_rate",
+        "verification_failure_rate",
+        "blocked_rate",
+        "unrelated_file_rate",
+        "elapsed_sec",
+        "tier_distribution",
+        "rework",
+        "escaped_defects"
+      ],
+      "notes": "Includes the conditional Agentic Operations module: Human Validation Zones, progressive autonomy, context/session recovery, parallel-agent isolation, least authority, durable failure/Gotcha knowledge, and project-handler pinning improvements. EFF v2 predates this event and was preserved. The PRE-STANDARDS-2026-09-11 baseline cohort is SHA 6662773be213c56a0e6a2179c3be060bc04170bb; the event era begins at ce664dfbd36f7522fe8049fdd36230384a8e0e8f and includes its descendant minor revisions until a later event supersedes it."
+    }
+  ]
+}

@@ -284,6 +284,18 @@ ChatGPT/orchestration may combine the EFF line with prompt metadata, Git/CI evid
 PR metadata, and later acceptance outcomes and write the resulting record to the
 cross-project AI Delivery metrics ledger.
 
+### Standards Change Events and eras
+
+`telemetry/standards-change-events.json` is the append-only, machine-readable ledger of material standards changes. EFF v2 remains unchanged: `EFF.standards_sha` is the authoritative per-run technical provenance, and analytics enriches it by resolving that SHA to an event and standards era.
+
+Create an event only for a change plausibly capable of altering measured execution behavior or outcomes, such as model routing, verification, context strategy, autonomy, lifecycle, recovery, Definition-of-Done, telemetry methodology, parallel-agent, or major security/governance rules. Do not create events for typo, formatting, comment, link, or other non-semantic cleanup; Git SHA remains sufficient provenance.
+
+An event records `change_id`, `effective_date`, `previous_standards_sha`, `new_standards_sha`, `title`, `summary`, `change_categories`, `affected_measurements`, and `notes`. Its era begins at `new_standards_sha` and includes descendant minor revisions until a later event defines a new era. A SHA equal to `previous_standards_sha` remains in the prior/baseline cohort. This is deterministic Git-provenance enrichment; do not rewrite historical EFF records or fabricate missing telemetry.
+
+Before/after results are observational, not causal proof. When data permits, segment or control by project, tier, run type, work class, requested model/priority, and materially different verification requirements. Compare PRE versus POST cohorts for attempts/story, correction/remediation rates, verification failures, PASS/FAIL/BLOCKED distribution, unrelated/files changed, deterministic elapsed time, tier distribution, compliance, and supported later rework or escaped defects.
+
+Use the maturity labels `INSUFFICIENT DATA`, `EARLY SIGNAL`, and `MEANINGFUL SAMPLE`. Do not claim statistical significance or causal improvement from a small post-change sample. Append one record for each future material change; do not change EFF v2 or backfill unsupported fields.
+
 ## 12. Evolution
 
 When a repeatable rule is globally reusable, place it in the smallest appropriate location:
