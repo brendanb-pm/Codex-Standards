@@ -4,6 +4,8 @@
 
 This file is the **always-loaded core** for Codex-assisted development. It defines only rules that are broadly applicable to nearly every task. Specialized rules live in conditional modules under `modules/` and must be loaded only when their trigger applies.
 
+Durable context has four layers: **GLOBAL** (this canonical standard), **PROJECT** (repository architecture, domain, security, environment, and operating instructions), **TASK** (the current brief), and **PROCEDURE** (reusable model-agnostic playbooks). Higher layers must not unnecessarily duplicate lower layers. Load the minimum authoritative context needed for correct execution and expand only when evidence requires it.
+
 Primary objective:
 
 `MIN CONTEXT -> DETERMINISTIC CHECKS -> LOWEST RELIABLE COMPUTE -> MEASURE OUTCOME`
@@ -57,6 +59,8 @@ For a materially phased story, identify `PHASE A`, `MIDSTREAM QA/QC GATE`, `PHAS
 Select the model and priority **once before execution**. After selection, do not continue discussing, reconsidering, or narrating model choice during the run.
 
 **Execution-profile stability:** Once substantive execution begins, keep the selected model, priority/effort, execution mode, loaded standards modules, and core tool surface stable for that run when practical. Do not toggle configuration merely to seek incremental compute savings. If newly discovered scope requires a materially different execution profile, preserve completed work and restart at a clean boundary rather than repeatedly mutating the active session.
+
+At each material execution boundary, reassess scope, complexity, risk, uncertainty, and verification needs without re-litigating routine commands. If work becomes simpler, reduce unnecessary reasoning, inspection, and verification. If new evidence reveals unexpected architecture coupling, security boundaries, migration complexity, concurrency, repeated implementation failure, cross-service scope, ambiguous root cause, broad merge conflict, or a broad regression surface, inspect the affected architecture and apply the restart rule when the launched profile is no longer safe or reliable.
 
 Cache preservation is an efficiency objective, not a correctness requirement. Never avoid necessary context, tools, verification, or escalation solely to preserve a cache hit.
 
@@ -127,9 +131,12 @@ Select applicable modules **before substantive execution** from the known task s
 - `modules/PERFORMANCE.md` — performance/scale work or latency-sensitive data loading/navigation/rendering.
 - `modules/PRODUCTION-EXTERNAL-SYSTEMS.md` — deployment, credentials, production mutation, external providers, webhooks, watches, polling, provider reconciliation.
 - `modules/LONG-SPEC-TRANSFER.md` — large/chunked requirement transfer or prompt-integrity assembly.
+- `modules/AGENTIC-OPERATIONS.md` — high-risk authority decisions, recovery/handoff, parallel implementation, reusable procedure design, or new-project initialization.
 - `Codex-Efficiency-Standards.md` — compute/context audit, unusually large tasks, repeated agent inefficiency, or explicit efficiency tuning.
 
 A project `AGENTS.md` should be a compact routing/enforcement layer, not a duplicate standards manual.
+
+When a project uses a pinned canonical revision, its handler must identify the canonical repository and approved SHA, resolve that revision before substantive work, keep the canonical content read-only during application execution, and report unavailable or unresolvable standards rather than silently approximating them. Load core plus applicable modules, not the entire manual.
 
 For substantive work, report which modules were loaded in one compact line or in the normal completion report. Do not narrate module-selection reasoning.
 
@@ -150,9 +157,13 @@ Unless the task requires otherwise:
 11. Commit/push only when requested or required by the task.
 12. Stop when acceptance is met.
 
+This is the `TRIGGER -> EXECUTE -> VERIFY -> AUDIT` lifecycle: establish task, authority, risk, standards, and tier; make the smallest coherent change; prove acceptance and applicable engineering requirements; then retain deterministic evidence, EFF v2 telemetry, durable decisions, blockers, and reusable failure knowledge.
+
 Reuse established context within the task. Do not repeatedly rediscover repository structure, branch, relevant files, architecture, standards, test commands, or dependency relationships unless state changed or prior evidence is incomplete.
 
-Prefer patching over rewriting. Avoid unrelated refactors, cleanup, renaming, formatting churn, speculative abstraction, and duplicate helpers/tests/features.
+Prefer patching over rewriting. Avoid unrelated refactors, cleanup, renaming, formatting churn, speculative abstraction, premature generalization, unused extension points, duplicate domain models, and duplicate helpers/tests/features. Implement the smallest solution that completely satisfies current acceptance, architecture, security, reliability, maintainability, and verification; this is not permission for brittle hacks or architectural violations.
+
+Do not narrate routine commands or obvious intermediate steps unless they provide a decision, blocker, safety issue, debugging detail, verification evidence, or audit evidence. Completion reporting must remain concise without losing required EFF v2 output or material evidence.
 
 ### Phased execution + midstream QA/QC
 
@@ -187,11 +198,17 @@ Use proportional verification:
 
 Run inexpensive checks before expensive checks. Do not rerun a passing check unless relevant code changed afterward, another fix could affect it, or final acceptance explicitly requires a fresh run.
 
+Where practical, prefer an executable deterministic check that produces objective evidence over an agent's prose judgment. Prose acceptance remains valid for behavior that cannot reasonably be automated.
+
+The implementer's assertion is not completion evidence. Apply independent verification proportionally: self-verification may be sufficient for low risk; independent verification is recommended when materially useful for medium risk; and is required when practical and materially applicable for high-risk security, authority, tenancy, destructive, migration, financial/business-integrity, major architecture, or consequential production work. An independent verifier may be a qualified agent or deterministic verification system. For sufficiently risky work, separate implementation from verification/integration acceptance; all generated code follows the same gates.
+
 For a midstream gate, select checks proportional to the phase's risk, such as focused automated tests, architecture or contract-invariant review, security/auth/tenant-isolation tests, migration/data-integrity checks, concurrency/idempotency checks, rendered UI or accessibility validation, adversarial cases, or provider/external-system contract tests. Where the environment supports it and risk justifies it, use a fresh reviewer/subagent or independent adversarial pass; do not require extra reviewers ceremonially for low-risk work.
 
 Midstream gates do not replace final verification. Before declaring the complete story `PASS`, verify integrated behavior across phases, run the proportional final regression required by the total change surface, review final diff/status, and satisfy repository or project release gates.
 
 Use truthful statuses where useful: `PASS`, `FAIL`, `NOT RUN`, `NOT APPLICABLE`.
+
+For overall execution outcomes, use equivalent truthful semantics for `COMPLETE`, `ENVIRONMENT BLOCKED`, and `FAILED`. Environment-blocked work is not fully verified merely because environment-independent checks passed.
 
 Never claim rendered QA, live-provider verification, physical-device testing, deployment, remote state, or production activation unless actually performed.
 
@@ -214,7 +231,7 @@ Production-intended functionality follows the project's normal mainline path. Ex
 
 ## 10. Durable Documentation
 
-Important product requirements, architecture decisions, contracts, security requirements, deployment procedures, and reusable instructions should live in the repository rather than only in chat.
+Important product requirements, architecture decisions, contracts, security requirements, deployment procedures, reusable instructions, and critical system behavior should live in durable repository sources rather than only in chat or proprietary model/session memory. A qualified future engineer or agent must be able to reconstruct critical behavior from code, tests, instructions, ADRs, architecture/domain documents, specifications, standards, or tracked decision records. Conversation history may assist execution but must not become required infrastructure.
 
 Do not create documentation merely for ceremony. Update durable docs when the change materially alters a contract, architecture, operational procedure, or reusable rule.
 
@@ -275,3 +292,5 @@ When a repeatable rule is globally reusable, place it in the smallest appropriat
 - project `AGENTS.md` if project-specific.
 
 Do not duplicate the same rule across core, modules, and project files. Periodically remove rules whose cost exceeds their demonstrated value.
+
+Version-control reusable, model-agnostic procedures only when recurring work benefits from them. Use a coherent project location such as existing modules, `playbooks/`, or `skills/`; do not create taxonomy-only files. Candidate procedures include story validation, Definition-of-Done verification, integration or merge review, security review, migration verification, release readiness, and context recovery.

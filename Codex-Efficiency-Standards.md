@@ -17,6 +17,8 @@ Optimize for:
 
 Inspect instruction/context sources before adding more permanent rules.
 
+Load only applicable standards, modules, and documents. Start with targeted files before broad repository exploration; avoid carrying irrelevant conversation history; and prefer structured summaries/checkpoints over raw historical transcripts.
+
 Flag for review:
 - any always-loaded instruction file above ~5k tokens;
 - combined always-loaded instruction context above ~10k tokens;
@@ -66,6 +68,8 @@ Subagent model selection follows the deterministic model/priority policy in core
 Use deterministic hooks for cheap repetitive enforcement when they reduce repeated model work: formatting checks, generated-file rejection, test selection, command-output truncation, or noisy-tool summarization.
 
 Do not add hooks whose own latency/complexity exceeds the saved compute. Keep full raw logs available when needed for diagnosis even if routine agent-visible output is compressed.
+
+Tool-output compression may summarize repetitive success, no-op, or noise output only when it preserves errors, warnings, failures, changed state, security-relevant output, test summaries, verification evidence, and unexpected behavior. Never compress evidence needed to diagnose a failure or substantiate completion.
 
 ## 8. Scheduled / Background Work
 
