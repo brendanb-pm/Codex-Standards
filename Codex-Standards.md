@@ -132,7 +132,7 @@ Select applicable modules **before substantive execution** from the known task s
 - `modules/PRODUCTION-EXTERNAL-SYSTEMS.md` — deployment, credentials, production mutation, external providers, webhooks, watches, polling, provider reconciliation.
 - `modules/LONG-SPEC-TRANSFER.md` — large/chunked requirement transfer or prompt-integrity assembly.
 - `modules/AGENTIC-OPERATIONS.md` — high-risk authority decisions, recovery/handoff, parallel implementation, reusable procedure design, or new-project initialization.
-- `Codex-Efficiency-Standards.md` — compute/context audit, unusually large tasks, repeated agent inefficiency, or explicit efficiency tuning.
+- `Codex-Efficiency-Standards.md` — context/retrieval policy, compute/context audit, unusually large tasks, repeated agent inefficiency, or explicit efficiency tuning.
 
 A project `AGENTS.md` should be a compact routing/enforcement layer, not a duplicate standards manual.
 

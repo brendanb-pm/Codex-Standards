@@ -101,3 +101,61 @@ FINDING | SEVERITY | EVIDENCE | COST / IMPACT | RECOMMENDATION
 ```
 
 Sort by expected cost/benefit. Prefer removing permanent complexity over adding more permanent efficiency rules.
+
+## 12. Context Efficiency and Retrieval
+
+Correctness, auditability, security, traceability, and required verification take precedence over token or context savings.
+
+1. **Query before traversal.** Before a broad repository read or search, use an appropriate structural graph, index, symbol map, or query when one exists and is fresh enough for the question.
+2. **Progressive disclosure.** Prefer, where appropriate: repository graph/query; search result; symbol/signature/map; diff; targeted line range; then complete file. Full-file reads remain required whenever smaller evidence cannot establish correctness.
+3. **Repeated-read control.** Do not reread an unchanged artifact solely because it was accessed in an earlier step. Reuse cached or indexed knowledge only when content identity, source freshness, and provenance remain available.
+4. **Compute, do not context-dump.** For large logs, datasets, test output, search results, JSON, or generated files, run deterministic extraction that returns the needed result instead of inserting raw source into model context.
+5. **Command-output hygiene.** Prefer scoped tests, filtered search, `git diff --stat` before large diffs, machine summaries, and failure-focused output when complete success logs add no evidence. Never hide errors, warnings, changed state, security-relevant output, test summaries, or evidence needed to diagnose a failure.
+6. **Preserve authoritative input.** Never semantically compress away user requirements, acceptance criteria, security, business, migration, architecture, compliance rules, or exact diagnostic error evidence.
+7. **Reversibility.** A summary or compressed reference must retain a route to its authoritative source and identity where technically feasible.
+8. **Dependency minimization.** Prefer repository, language, runtime, or OS-native capabilities when they satisfy the requirement cleanly.
+
+Any optimization that reduces context/token use while reducing correctness, verification strength, or traceability is a regression.
+
+## 13. Repository Intelligence and Graphify Pilot
+
+An AST-derived repository graph is an optional project-scoped intelligence layer, not a substitute for current source. Graphify is the preferred first candidate because its code graph is deterministic and queryable; its results are advisory until direct source inspection confirms material conclusions.
+
+Before installing or executing a third-party graph tool, inspect the pinned release's installation method, lifecycle hooks, network behavior, permission changes, files it writes, code/data locality, and uninstall/recovery path. Do not bypass host trust prompts, install globally merely for a pilot, or add hooks without explicit review.
+
+When approved for a project pilot:
+
+1. use the tool's project-scoped Codex integration rather than machine-wide configuration where supported;
+2. record tool version, repository commit, graph generation time, source scope, and whether any non-code semantic/network pass is enabled;
+3. ignore generated graph/index output by default unless the project explicitly needs a reviewed artifact committed;
+4. refresh the graph after pull, merge, rebase, or relevant source change before relying on it;
+5. query the graph before broad traversal, then inspect direct source whenever results are missing, stale, ambiguous, inferred, or material to correctness;
+6. never let stale graph data override the current worktree or authoritative source.
+
+Bootstrap, refresh, and removal commands must be documented in the adopting project's instructions. No graph tool is mandatory until a controlled cohort demonstrates equal-or-better correctness and verification.
+
+For Graphify's documented Codex path, the adopting project records the reviewed, pinned equivalent of `graphify install --project --platform codex` for bootstrap, `graphify .` for build/refresh, and `graphify query "<question>"` for retrieval. Removal must first preview the project files written by the chosen version, then remove only those reviewed project-scoped integration and generated-output paths; do not use global uninstall or hook commands for a project pilot.
+
+## 14. Optional Compression / Caching Pilot
+
+LeanCTX is the preferred first compression/caching experiment candidate. It is not mandatory and must be evaluated project-by-project after the Graph cohort. The first comparison must not simultaneously deploy Headroom, Context Mode, Token Optimizer MCP, or another general-purpose context-compression layer.
+
+Before a LeanCTX pilot, inspect its installer, hooks, MCP registration, proxy behavior, telemetry/update settings, network/data egress, files changed, permissions, and dry-run uninstall/recovery path. Start with the smallest project-scoped, read-path configuration; keep request-proxy/wire compression, cloud sync, automatic hooks, and machine-wide settings disabled unless separately reviewed and explicitly authorized.
+
+Evaluate cached rereads, scoped reads, command compression, reversibility, security/data locality, existing `AGENTS.md` behavior, provider-reported usage when exposed, and correctness under unchanged acceptance and verification gates. A failed safety or compatibility review is `BLOCKED`, not a reason to weaken controls.
+
+## 15. Context-Efficiency Measurement and Experiments
+
+`telemetry/context-efficiency-measurement.schema.json` defines optional enrichment records for the AI-delivery ledger. It complements EFF v2; do not add fields to EFF v2 or fabricate unavailable values.
+
+Capture when observable: story, project, agent/client, requested/runtime model and reasoning configuration, cohort, files inspected, repeated file reads, broad searches, graph/index queries, command/tool calls, raw bytes produced, bytes returned to the model, locally estimated input tokens, cached input tokens, output tokens, expansion/retrieval events, elapsed time, test/acceptance/correctness results, human rework, commit SHA, and standards SHA.
+
+Keep these measures distinct: observed bytes/context avoided; locally estimated token reduction; provider-reported token usage; and estimated monetary savings. Never present local estimates as provider-billed usage or savings, and use `null` rather than inventing evidence.
+
+Use controlled cohorts with identical acceptance criteria and verification gates:
+
+- `BASELINE` — current behavior without an additional Graphify/LeanCTX layer;
+- `GRAPH` — this standard plus Graphify;
+- `GRAPH_CONTEXT_OPTIMIZATION` — this standard plus Graphify and LeanCTX.
+
+Compare efficiency and correctness. A cohort is not superior merely because it uses fewer tokens, bytes, reads, or calls; it must retain acceptance, verification, and supported later-outcome quality.
