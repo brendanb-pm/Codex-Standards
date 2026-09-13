@@ -246,6 +246,9 @@ EFF v2 separates:
 - deterministic repository/timing evidence; and
 - later outcome evidence.
 
+`v:2` is the EFF delivery-record version. It is independent of the
+`schema_version` field used by context-efficiency measurement records.
+
 Use:
 
 EFF {"v":2,"project":"PROJECT","story":"ID","attempt":1,"run_type":"Initial|Correction|Remediation|Verification","tier":"T0|T1|T2|T3","requested_model":null|"X","requested_priority":null|"Low|Medium|High","runtime_model":null|"X","runtime_priority":null|"X","standards_sha":"SHA|null","started_at":"ISO-8601|null","ended_at":"ISO-8601|null","elapsed_sec":N|null,"base_sha":"SHA|null","final_sha":"SHA|null","files":N|null,"insertions":N|null,"deletions":N|null,"unrelated":N|null,"verify":"PASS|FAIL|BLOCKED","verification_failures":N|null,"compliance":"PASS|FAIL|PARTIAL","commit":"SHA|null","push":"PASS|FAIL|NA","blocker":null|"description"}
@@ -257,13 +260,17 @@ Rules:
 3. Corrections, remediations, and independent verification retain the same story
    identifier and increment `attempt`.
 4. `tier` records the execution tier selected under Section 4.
-5. `requested_model` and `requested_priority` record routing intent when explicitly
-   selected before execution.
-6. `runtime_model` and `runtime_priority` MUST remain null unless explicitly
-   exposed by the execution environment.
-7. `started_at` and `ended_at` must come from deterministic execution/harness
-   timestamps when available. Never estimate elapsed duration from model reasoning.
-8. `elapsed_sec` is derived from those timestamps, not self-estimated.
+5. `requested_model` and `requested_priority` MUST record routing intent whenever
+   the execution brief or session directly and reliably exposes it; otherwise use
+   null. Do not substitute runtime configuration for requested configuration.
+6. `runtime_model` and `runtime_priority` MUST record runtime configuration when
+   explicitly exposed by the execution environment; otherwise use null. Do not
+   substitute requested configuration for runtime configuration.
+7. `started_at` and `ended_at` MUST record directly observable deterministic
+   execution/harness timestamps when available; otherwise use null. Never estimate
+   elapsed duration from conversational context or model reasoning.
+8. When both timestamps are available, `elapsed_sec` MUST be calculated
+   deterministically from them; otherwise use null.
 9. `base_sha`, `final_sha`, file count, insertions, deletions, and unrelated-file
    count should come from repository evidence when available.
 10. Verification reports only checks actually performed.

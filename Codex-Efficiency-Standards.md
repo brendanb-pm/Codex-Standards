@@ -146,9 +146,11 @@ Evaluate cached rereads, scoped reads, command compression, reversibility, secur
 
 ## 15. Context-Efficiency Measurement and Experiments
 
-`telemetry/context-efficiency-measurement.schema.json` defines optional enrichment records for the AI-delivery ledger. It complements EFF v2; do not add fields to EFF v2 or fabricate unavailable values.
+`telemetry/context-efficiency-measurement.schema.json` defines optional enrichment records for the AI-delivery ledger. Its `schema_version` is independent of the EFF delivery-record `v` field. It complements EFF v2; do not add fields to EFF v2 or fabricate unavailable values.
 
 Capture when observable: story, project, agent/client, requested/runtime model and reasoning configuration, cohort, files inspected, repeated file reads, broad searches, graph/index queries, command/tool calls, raw bytes produced, bytes returned to the model, locally estimated input tokens, cached input tokens, output tokens, expansion/retrieval events, elapsed time, test/acceptance/correctness results, human rework, commit SHA, and standards SHA.
+
+When directly and reliably observable, execution timestamps, deterministically derived elapsed time, and requested/runtime model or priority configuration MUST be recorded. Use null only when the source does not expose the value reliably; never infer, substitute, or backfill it.
 
 Keep these measures distinct: observed bytes/context avoided; locally estimated token reduction; provider-reported token usage; and estimated monetary savings. Never present local estimates as provider-billed usage or savings, and use `null` rather than inventing evidence.
 
