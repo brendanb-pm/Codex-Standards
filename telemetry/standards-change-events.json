@@ -67,6 +67,34 @@
       ],
       "measurement_objective": "Measure context and tool-output efficiency by cohort while preserving acceptance, verification, correctness, traceability, and later outcome evidence.",
       "notes": "EFF v2 remains unchanged. This event begins at e627f1fd6ee114b76ee509abaaf40b251b0c734d; the append-only event-record commit is a descendant minor revision in the same era. No third-party optimizer, hook, proxy, global configuration, or generated graph was installed."
+    },
+    {
+      "change_id": "STANDARDS-2026-09-13-OBSERVABLE-TELEMETRY",
+      "effective_date": "2026-09-13",
+      "previous_standards_sha": "ae4798e64a9cb979ad53ddcf3e5757359b89e896",
+      "new_standards_sha": "719967b3fbf516df2d60ca87164f76404ba3fd90",
+      "title": "Observable Context Telemetry Capture",
+      "summary": "Requires directly observable execution metadata to be recorded while preserving null for unavailable values and clarifying independent EFF and context-efficiency version fields.",
+      "change_categories": [
+        "telemetry",
+        "context"
+      ],
+      "affected_measurements": [
+        "started_at",
+        "ended_at",
+        "elapsed_sec",
+        "requested_model",
+        "requested_priority",
+        "runtime_model",
+        "runtime_priority"
+      ],
+      "files_affected": [
+        "Codex-Standards.md",
+        "Codex-Efficiency-Standards.md",
+        "telemetry/context-efficiency-measurement.schema.json"
+      ],
+      "measurement_objective": "Improve completeness of directly observable execution metadata without inferring unavailable values or changing BASELINE behavior.",
+      "notes": "EFF remains record version v:2; context-efficiency records retain schema_version: 1. Historical records, including historical nulls, are not rewritten. The append-only event commit is a descendant minor revision in this standards era."
     }
   ]
 }
