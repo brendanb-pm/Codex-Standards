@@ -30,6 +30,43 @@
         "escaped_defects"
       ],
       "notes": "Includes the conditional Agentic Operations module: Human Validation Zones, progressive autonomy, context/session recovery, parallel-agent isolation, least authority, durable failure/Gotcha knowledge, and project-handler pinning improvements. EFF v2 predates this event and was preserved. The PRE-STANDARDS-2026-09-11 baseline cohort is SHA 6662773be213c56a0e6a2179c3be060bc04170bb; the event era begins at ce664dfbd36f7522fe8049fdd36230384a8e0e8f and includes its descendant minor revisions until a later event supersedes it."
+    },
+    {
+      "change_id": "STANDARDS-2026-09-12-CONTEXT-EFFICIENCY",
+      "effective_date": "2026-09-12",
+      "previous_standards_sha": "fdac540e0be40ac60c5c1fc4687b014df105c1c5",
+      "new_standards_sha": "e627f1fd6ee114b76ee509abaaf40b251b0c734d",
+      "title": "Context Efficiency and Retrieval",
+      "summary": "Added query-first retrieval, progressive disclosure, repeated-read control, command-output hygiene, optional Graphify and LeanCTX pilot protocols, and context-efficiency measurement schema.",
+      "change_categories": [
+        "context",
+        "retrieval",
+        "repository_intelligence",
+        "efficiency",
+        "telemetry"
+      ],
+      "affected_measurements": [
+        "files_inspected",
+        "repeated_file_reads",
+        "broad_search_calls",
+        "graph_index_queries",
+        "command_tool_calls",
+        "bytes_returned_to_model",
+        "locally_estimated_token_reduction",
+        "provider_reported_token_usage",
+        "elapsed_sec",
+        "test_outcome",
+        "acceptance_result",
+        "correctness_result",
+        "human_rework_required"
+      ],
+      "files_affected": [
+        "Codex-Standards.md",
+        "Codex-Efficiency-Standards.md",
+        "telemetry/context-efficiency-measurement.schema.json"
+      ],
+      "measurement_objective": "Measure context and tool-output efficiency by cohort while preserving acceptance, verification, correctness, traceability, and later outcome evidence.",
+      "notes": "EFF v2 remains unchanged. This event begins at e627f1fd6ee114b76ee509abaaf40b251b0c734d; the append-only event-record commit is a descendant minor revision in the same era. No third-party optimizer, hook, proxy, global configuration, or generated graph was installed."
     }
   ]
 }
