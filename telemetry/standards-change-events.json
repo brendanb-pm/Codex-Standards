@@ -95,6 +95,36 @@
       ],
       "measurement_objective": "Improve completeness of directly observable execution metadata without inferring unavailable values or changing BASELINE behavior.",
       "notes": "EFF remains record version v:2; context-efficiency records retain schema_version: 1. Historical records, including historical nulls, are not rewritten. The append-only event commit is a descendant minor revision in this standards era."
+    },
+    {
+      "change_id": "STANDARDS-2026-09-13-DELIVERY-CLOSEOUT",
+      "effective_date": "2026-09-13",
+      "previous_standards_sha": "64f0535ccbc553746796f7832b5c26c2633cb313",
+      "new_standards_sha": "f54b2f1d6ae814b02a4d1aabab51d6503db2a865",
+      "title": "Transactional Delivery Closeout Control Loop",
+      "summary": "Formalized Codex-owned Notion synchronization and EFF persistence, re-fetch verification, dual acceptance, blocked closeout semantics, and reconciliation handoff.",
+      "change_categories": [
+        "definition_of_done",
+        "control_plane",
+        "telemetry",
+        "verification",
+        "orchestration"
+      ],
+      "affected_measurements": [
+        "full_closeout_rate",
+        "control_plane_sync_failure_rate",
+        "notion_reconciliation_frequency",
+        "eff_persistence_completeness",
+        "implementation_to_closeout_latency",
+        "dependency_unlock_latency"
+      ],
+      "files_affected": [
+        "Codex-Standards.md",
+        "modules/DELIVERY-CLOSEOUT.md",
+        "modules/Readme.md"
+      ],
+      "measurement_objective": "Measure complete delivery closeout and control-plane synchronization without weakening implementation evidence or altering EFF v2.",
+      "notes": "The implementation agent completes routine transactional closeout. If configured Notion or the approved EFF ledger cannot be written and verified, valid implementation remains preserved and the required state is CONTROL-PLANE SYNC BLOCKED. EFF v2 is unchanged. This event begins at f54b2f1d6ae814b02a4d1aabab51d6503db2a865; the append-only event-record commit is a descendant minor revision in the same era."
     }
   ]
 }
