@@ -132,6 +132,7 @@ Select applicable modules **before substantive execution** from the known task s
 - `modules/PRODUCTION-EXTERNAL-SYSTEMS.md` — deployment, credentials, production mutation, external providers, webhooks, watches, polling, provider reconciliation.
 - `modules/LONG-SPEC-TRANSFER.md` — large/chunked requirement transfer or prompt-integrity assembly.
 - `modules/AGENTIC-OPERATIONS.md` — high-risk authority decisions, recovery/handoff, parallel implementation, reusable procedure design, or new-project initialization.
+- `modules/DELIVERY-CLOSEOUT.md` — substantive tracked story/sprint control-plane read, closeout, or reconciliation.
 - `Codex-Efficiency-Standards.md` — context/retrieval policy, compute/context audit, unusually large tasks, repeated agent inefficiency, or explicit efficiency tuning.
 
 A project `AGENTS.md` should be a compact routing/enforcement layer, not a duplicate standards manual.
@@ -303,7 +304,23 @@ Before/after results are observational, not causal proof. When data permits, seg
 
 Use the maturity labels `INSUFFICIENT DATA`, `EARLY SIGNAL`, and `MEANINGFUL SAMPLE`. Do not claim statistical significance or causal improvement from a small post-change sample. Append one record for each future material change; do not change EFF v2 or backfill unsupported fields.
 
-## 12. Evolution
+## 12. Transactional Delivery Closeout
+
+For every substantive tracked story or sprint, use this control loop:
+
+`IMPLEMENT -> VERIFY -> INTEGRATE/MERGE -> PERSIST EFF -> UPDATE NOTION -> RE-FETCH / VERIFY CONTROL PLANE -> REPORT`
+
+Authority is deliberately separated: Git/main, CI, and verification are implementation/delivery evidence; Notion is the authoritative project-status control plane; the EFF ledger is authoritative delivery-performance evidence; the product owner controls product scope and priority; and an orchestration/control agent handles cross-project analysis, exceptions, and next-work orchestration. The implementation agent normally completes transactional closeout itself.
+
+Before substantive tracked work, read the applicable control-plane record and confirm story key, status, dependencies, scope, acceptance, and blockers. Reconcile material discrepancies against Git/main and durable delivery evidence. If scope, acceptance, or dependencies cannot be established confidently, return `CONTROL-PLANE READ BLOCKED` and stop implementation. If Notion is unavailable but Git/specification evidence makes implementation safe, proceed only with the outstanding reconciliation recorded.
+
+**Implementation Acceptance** requires applicable acceptance, checks, required independent verification, required integration/merge, and verified remote final state. **Control-Plane Acceptance** requires verified EFF persistence and verified Notion final-state synchronization. A story/sprint is fully closed only when both pass; only then report `STORY COMPLETE` or `SPRINT COMPLETE`.
+
+Printing an EFF line is not persistence. Write it to the configured authoritative ledger when access exists and verify the write by deterministic read/query/re-fetch when supported. Update Notion with actual delivery evidence, then re-fetch the record and verify its required values. Do not add EFF v2 fields or fabricate unavailable telemetry to support closeout timing or persistence.
+
+If valid implementation passes but a required control-plane operation cannot be completed or verified, preserve the implementation; do not roll it back merely for that reason. Report `IMPLEMENTATION: COMPLETE`, `CONTROL PLANE: SYNC BLOCKED`, per-system `NOTION: PASS|BLOCKED` and `EFF: PASS|BLOCKED`, and `STORY/SPRINT: NOT FULLY CLOSED`. The overall closeout state is `CONTROL-PLANE SYNC BLOCKED`. Produce the reconciliation handoff defined by `modules/DELIVERY-CLOSEOUT.md`.
+
+## 13. Evolution
 
 When a repeatable rule is globally reusable, place it in the smallest appropriate location:
 - core only if nearly every task needs it;
