@@ -2,6 +2,8 @@
 
 Load for every substantive tracked story or sprint. It operationalizes the core transactional closeout rule without replacing project-specific release, CI, or product instructions.
 
+Execute the reusable procedure in `../DELIVERY_CLOSEOUT_PROMPT.md` after implementation and required integration. This module and the governing core remain authoritative if the procedure conflicts with either.
+
 ## Authority and pre-implementation control-plane read
 
 - Git/main, CI, and verification are authoritative implementation and delivery evidence.
