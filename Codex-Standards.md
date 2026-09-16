@@ -164,6 +164,8 @@ Reuse established context within the task. Do not repeatedly rediscover reposito
 
 Prefer patching over rewriting. Avoid unrelated refactors, cleanup, renaming, formatting churn, speculative abstraction, premature generalization, unused extension points, duplicate domain models, and duplicate helpers/tests/features. Implement the smallest solution that completely satisfies current acceptance, architecture, security, reliability, maintainability, and verification; this is not permission for brittle hacks or architectural violations.
 
+For a performance story, verified evidence that the existing implementation satisfies all documented acceptance criteria with no meaningful bottleneck is a valid successful completion with zero implementation changes. Do not manufacture an optimization or source diff; retain the measurement evidence required by `modules/PERFORMANCE.md`.
+
 Do not narrate routine commands or obvious intermediate steps unless they provide a decision, blocker, safety issue, debugging detail, verification evidence, or audit evidence. Completion reporting must remain concise without losing required EFF v2 output or material evidence.
 
 ### Phased execution + midstream QA/QC
