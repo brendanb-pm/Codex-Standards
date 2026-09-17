@@ -152,6 +152,39 @@
       ],
       "measurement_objective": "Measure whether evidence-first performance completion reduces unnecessary optimization and rework while preserving verified acceptance and completion rates.",
       "notes": "EFF v2 is unchanged. A verified no-code performance story records files: 0 when accurate and retains the baseline measurement artifact as delivery evidence. This event begins at 015df91513648788f19545b5c109524adc084d57; the append-only event-record commit is a descendant minor revision in the same era."
+    },
+    {
+      "change_id": "STANDARDS-2026-09-17-CAPABILITY-AGENT-OPTIMIZATION",
+      "effective_date": "2026-09-17",
+      "previous_standards_sha": "2951a34c7d660add75ab530fac68ea500d4fc23d",
+      "new_standards_sha": "f2454f059c2a8f6bb85338f33caae83852710fb1",
+      "title": "Capability Reuse and Multi-Agent Optimization",
+      "summary": "Added guarded capability reuse, structured-state preference, freshness-aware research, proportional architecture artifacts, functional agent roles, minimum necessary agent count, and durable material handoffs.",
+      "change_categories": [
+        "context",
+        "agentic_execution",
+        "efficiency",
+        "verification",
+        "tooling",
+        "research"
+      ],
+      "affected_measurements": [
+        "unrelated_file_rate",
+        "files_changed",
+        "elapsed_sec",
+        "rework",
+        "correction_rate",
+        "remediation_rate",
+        "agent_handoff_failure_rate",
+        "duplicated_implementation_rate",
+        "verification_failure_rate"
+      ],
+      "files_affected": [
+        "Codex-Standards.md",
+        "modules/AGENTIC-OPERATIONS.md"
+      ],
+      "measurement_objective": "Measure whether approved-capability reuse and minimum-agent, durable-handoff discipline reduce duplicated implementation, coordination failure, unnecessary file changes, elapsed time, and rework without weakening verification.",
+      "notes": "EFF v2, deterministic model routing, independent verification, Evidence-Based Performance, and Delivery Closeout remain unchanged. No reviewed third-party repository or universal tool dependency was adopted. This event begins at f2454f059c2a8f6bb85338f33caae83852710fb1; the append-only event-record commit is a descendant minor revision in the same era."
     }
   ]
 }
