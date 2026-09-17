@@ -24,6 +24,24 @@ Before parallel implementation, establish shared contracts, architecture boundar
 
 After parallel work, integrate and verify the combined system; individual branch success is not integration evidence. For sufficiently risky work, keep generation authority separate from verification/integration acceptance where practical; no vendor or model receives a permanent privileged role.
 
+Create a specialized agent role only when separating authority, context, expertise, implementation responsibility, or verification responsibility materially improves the expected outcome. Agent roles are functional boundaries, not personas; do not create agents to simulate organizational titles or increase agent count. Use the minimum number of agents needed for meaningful separation of concerns. Additional agents add context-transfer cost, coordination overhead, conflicting assumptions, duplicated work, and failure surfaces. Parallelize only when work is sufficiently independent or intentional separation provides verification or risk-control value. More agents do not imply greater rigor, and the core independent-verification requirements remain authoritative.
+
+## Material agent handoffs
+
+When one agent's output becomes another agent's working input, provide a lightweight durable handoff containing, where applicable:
+
+- `TASK`
+- `SCOPE OWNED`
+- `AUTHORITATIVE INPUTS / SOURCES`
+- `DECISIONS MADE`
+- `FILES / SURFACES CHANGED`
+- `VERIFICATION COMPLETED`
+- `UNRESOLVED QUESTIONS`
+- `BLOCKERS`
+- `OUTPUTS / REQUIRED ACTION FOR NEXT AGENT`
+
+The receiving agent must be able to reconstruct material task state from durable evidence without hidden conversation history. Omit the full contract for trivial delegation when the necessary state is already deterministic and locally available. This contract extends context recovery, parallel-agent isolation, and delivery reconciliation; it does not replace their more specific requirements.
+
 ## Durable operational knowledge
 
 Keep reusable failure knowledge in a lightweight durable, preferably append-only registry only when it is non-obvious and reusable. Each entry records trigger/condition, observed failure, known root cause, safe resolution/prevention, affected scope, and relevant version/date when useful. Do not use it for ordinary defects, temporary story notes, or generic troubleshooting logs.

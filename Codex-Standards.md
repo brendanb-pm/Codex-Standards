@@ -48,6 +48,8 @@ Keep briefs execution-oriented. Put broad reasoning, tradeoff analysis, and stor
 
 For a materially phased story, identify `PHASE A`, `MIDSTREAM QA/QC GATE`, `PHASE B`, and `FINAL QA/QC GATE` when those labels improve execution clarity. Do not require phase labels for trivial single-phase work.
 
+For sufficiently complex work involving multiple services or trust boundaries, asynchronous workflows, significant state transitions, security-sensitive flows, multi-agent orchestration, or complex external integrations, consider generating or updating an architecture diagram, sequence diagram, state-transition representation, or workflow artifact when it materially improves an implementation decision or verification. Do not require diagrams for routine stories, do not create documentation theater, and reuse or update an existing durable artifact instead of creating a redundant representation.
+
 ### Mobile / Desktop prompt mode
 
 - `M:` activates persistent Mobile Mode: compress aggressively while preserving implementation-critical constraints, acceptance, and verification.
@@ -164,6 +166,10 @@ Reuse established context within the task. Do not repeatedly rediscover reposito
 
 Prefer patching over rewriting. Avoid unrelated refactors, cleanup, renaming, formatting churn, speculative abstraction, premature generalization, unused extension points, duplicate domain models, and duplicate helpers/tests/features. Implement the smallest solution that completely satisfies current acceptance, architecture, security, reliability, maintainability, and verification; this is not permission for brittle hacks or architectural violations.
 
+Before implementing custom agent tooling, automation, adapters, utilities, or infrastructure, determine whether an existing approved project utility, platform-native capability, approved tool integration, maintained library, internal service, or standards procedure already provides the required function. Discovery does not imply adoption: evaluate security, least authority, licensing, maintenance/support, architecture boundaries, privacy/data handling, dependency risk, and deterministic verification. Do not add a dependency merely because one exists; retain a local/custom implementation when it is the smallest reliable solution.
+
+Before relying on external information, classify the question as stable knowledge or current/fresh evidence. Do not perform unnecessary external research for stable facts already established by authoritative project sources. For mutable external facts such as framework/library versions, API behavior, vendor documentation, security advisories, compatibility, supported platforms, licensing/pricing, or service capabilities, prefer current primary or vendor evidence. Project/repository authority remains primary for project-specific truth; do not silently replace project requirements with generic current practice.
+
 For a performance story, verified evidence that the existing implementation satisfies all documented acceptance criteria with no meaningful bottleneck is a valid successful completion with zero implementation changes. Do not manufacture an optimization or source diff; retain the measurement evidence required by `modules/PERFORMANCE.md`.
 
 Do not narrate routine commands or obvious intermediate steps unless they provide a decision, blocker, safety issue, debugging detail, verification evidence, or audit evidence. Completion reporting must remain concise without losing required EFF v2 output or material evidence.
@@ -202,6 +208,8 @@ Use proportional verification:
 Run inexpensive checks before expensive checks. Do not rerun a passing check unless relevant code changed afterward, another fix could affect it, or final acceptance explicitly requires a fresh run.
 
 Where practical, prefer an executable deterministic check that produces objective evidence over an agent's prose judgment. Prose acceptance remains valid for behavior that cannot reasonably be automated.
+
+When equivalent authoritative information is available through a structured interface, prefer an API, schema, DOM, accessibility tree, or other structured state over screenshot, image, or visual inference for automation, state inspection, data extraction, integration, and non-visual verification. This is a preference, not a prohibition: use rendered visual evidence when acceptance concerns appearance, layout, rendering, visual regression, responsive behavior, or user-visible presentation, and never substitute structural verification for required visual verification.
 
 The implementer's assertion is not completion evidence. Apply independent verification proportionally: self-verification may be sufficient for low risk; independent verification is recommended when materially useful for medium risk; and is required when practical and materially applicable for high-risk security, authority, tenancy, destructive, migration, financial/business-integrity, major architecture, or consequential production work. An independent verifier may be a qualified agent or deterministic verification system. For sufficiently risky work, separate implementation from verification/integration acceptance; all generated code follows the same gates.
 
