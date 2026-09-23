@@ -12,6 +12,8 @@ Primary objective:
 
 Correctness, security, explicit acceptance criteria, and required verification take precedence over compute savings.
 
+When priorities conflict, resolve them in this order: correctness; security; verification and evidence; maintainability; required functionality; development throughput; context efficiency; then token or compute cost. An optimization that materially weakens a higher priority is a regression.
+
 ## 2. Instruction Precedence
 
 Apply instructions in this order:
@@ -55,6 +57,10 @@ For sufficiently complex work involving multiple services or trust boundaries, a
 - `M:` activates persistent Mobile Mode: compress aggressively while preserving implementation-critical constraints, acceptance, and verification.
 - `D:` activates persistent Desktop Mode: include useful detail but still avoid duplicated standards and irrelevant history.
 - Do not reproduce canonical standards in prompts when Codex can read them from the repository.
+
+### Completion reporting
+
+Keep execution reports concise and action-oriented. Use the equivalent of `STATUS`, `CHANGES`, `VERIFICATION`, `EVIDENCE`, `RISKS/BLOCKERS`, and `NEXT ACTION` when those headings improve clarity. Omit routine-command narration, filler, and already-established facts, but retain the reasoning needed to substantiate architecture decisions, security decisions, failure analysis, or other material evidence. Human-facing documentation optimizes for comprehension, not minimum token count.
 
 ## 4. Deterministic Model / Priority Selection
 
@@ -145,6 +151,12 @@ For substantive work, report which modules were loaded in one compact line or in
 
 ## 6. Efficient Execution Cycle
 
+### Pre-implementation readiness
+
+Before modifying code, establish the objective, authoritative acceptance criteria, affected system boundaries, known constraints, assumptions, security/data implications, and expected verification. Resolve material uncertainty rather than silently choosing an interpretation. If ambiguity could materially alter architecture, security, data behavior, compatibility, or acceptance, surface it before implementation.
+
+For sufficiently complex, underspecified, risky, or multi-system work, use the available planning mechanism to propose and review an implementation path before edits. Planning defines the approach; the goal and acceptance criteria define the required outcome. Do not create a competing planning framework for work that the existing mechanism can plan adequately.
+
 Unless the task requires otherwise:
 
 1. Load core + project instructions + triggered modules once.
@@ -153,18 +165,23 @@ Unless the task requires otherwise:
 4. Locate the requested implementation surface with targeted search.
 5. Inspect the minimum relevant code, tests, callers, and contracts.
 6. Check whether requested functionality already exists or is partially implemented.
-7. Make the smallest coherent change satisfying acceptance criteria.
-8. Run the cheapest high-signal verification first.
-9. Expand verification only as risk/change surface requires.
-10. Review final diff/status once implementation stabilizes.
-11. Commit/push only when requested or required by the task.
-12. Stop when acceptance is met.
+7. Establish a baseline or reproduce the defect when that would materially strengthen verification.
+8. Make the smallest coherent change satisfying acceptance criteria.
+9. Run the cheapest high-signal verification first.
+10. Expand verification only as risk/change surface requires.
+11. Review final diff/status once implementation stabilizes.
+12. Commit/push only when requested or required by the task.
+13. Stop when acceptance is met.
 
 This is the `TRIGGER -> EXECUTE -> VERIFY -> AUDIT` lifecycle: establish task, authority, risk, standards, and tier; make the smallest coherent change; prove acceptance and applicable engineering requirements; then retain deterministic evidence, EFF v2 telemetry, durable decisions, blockers, and reusable failure knowledge.
 
 Reuse established context within the task. Do not repeatedly rediscover repository structure, branch, relevant files, architecture, standards, test commands, or dependency relationships unless state changed or prior evidence is incomplete.
 
-Prefer patching over rewriting. Avoid unrelated refactors, cleanup, renaming, formatting churn, speculative abstraction, premature generalization, unused extension points, duplicate domain models, and duplicate helpers/tests/features. Implement the smallest solution that completely satisfies current acceptance, architecture, security, reliability, maintainability, and verification; this is not permission for brittle hacks or architectural violations.
+Prefer the least-complex adequate choice in this order: existing implementation; existing project abstraction; native language/platform capability; standard library; small local implementation; existing approved dependency; new dependency; then new abstraction or framework. Moving downward requires increasing concrete justification. Prefer patching over rewriting. Avoid speculative abstraction, premature generalization, unused extension points, duplicate domain models, and duplicate helpers/tests/features. Implement the smallest solution that completely satisfies current acceptance, architecture, security, reliability, maintainability, and verification; this is not permission for brittle hacks or architectural violations.
+
+Keep changes surgically within the smallest reasonable story surface. Do not modify unrelated files, reformat or rename unrelated code, remove comments without cause, clean unrelated worktree changes, or expand scope because nearby improvements are attractive. Existing user/developer work is evidence and must be preserved; never stash, reset, check out over, delete, or overwrite it without explicit authorization. Record an unrelated defect or improvement separately and recommend follow-up work rather than silently incorporating it.
+
+Verification must prove the requested behavior, not merely compilation or unrelated test success. Do not modify tests only to make an incorrect implementation pass.
 
 Before implementing custom agent tooling, automation, adapters, utilities, or infrastructure, determine whether an existing approved project utility, platform-native capability, approved tool integration, maintained library, internal service, or standards procedure already provides the required function. Discovery does not imply adoption: evaluate security, least authority, licensing, maintenance/support, architecture boundaries, privacy/data handling, dependency risk, and deterministic verification. Do not add a dependency merely because one exists; retain a local/custom implementation when it is the smallest reliable solution.
 

@@ -18,6 +18,8 @@ At the first substantive task in a session, establish the repository, branch, HE
 
 After lost session, compaction, provider/model change, handoff, or interruption, reconstruct from durable evidence: repository, branch, HEAD, remote/worktree state, task, standards revision, applicable instructions, directly relevant architecture/specification, completed verification evidence, and blockers. Git and durable repository state outrank remembered conversation state. For long-running work or anticipated context loss, make a concise durable checkpoint sufficient for safe recovery.
 
+Persist important state and decisions, not entire conversations. A checkpoint may record the current objective, authoritative requirements, accepted assumptions, material constraints, verification state, preserved work, known defects, unresolved blockers, relevant SHAs, and next action. Do not introduce a memory dependency when durable repository/control-plane evidence already provides safe continuity; document a demonstrated gap and proposed architecture before adding one.
+
 ## Parallel work and verification authority
 
 Before parallel implementation, establish shared contracts, architecture boundaries, and ownership/write surfaces. Give each agent only its required context and prefer non-overlapping writes. Agents must not independently invent competing schemas, APIs, domain models, routes, persistence contracts, or shared interfaces.

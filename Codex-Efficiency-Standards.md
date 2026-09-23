@@ -107,7 +107,7 @@ Sort by expected cost/benefit. Prefer removing permanent complexity over adding 
 Correctness, auditability, security, traceability, and required verification take precedence over token or context savings.
 
 1. **Query before traversal.** Before a broad repository read or search, use an appropriate structural graph, index, symbol map, or query when one exists and is fresh enough for the question.
-2. **Progressive disclosure.** Prefer, where appropriate: repository graph/query; search result; symbol/signature/map; diff; targeted line range; then complete file. Full-file reads remain required whenever smaller evidence cannot establish correctness.
+2. **Progressive disclosure.** Prefer, where appropriate: metadata; a fresh repository graph/query; targeted search result; relevant symbol/signature/map or section; diff; bounded surrounding context; then complete file. Full-file reads remain required whenever smaller evidence cannot establish correctness.
 3. **Repeated-read control.** Do not reread an unchanged artifact solely because it was accessed in an earlier step. Reuse cached or indexed knowledge only when content identity, source freshness, and provenance remain available.
 4. **Compute, do not context-dump.** For large logs, datasets, test output, search results, JSON, or generated files, run deterministic extraction that returns the needed result instead of inserting raw source into model context.
 5. **Command-output hygiene.** Prefer scoped tests, filtered search, `git diff --stat` before large diffs, machine summaries, and failure-focused output when complete success logs add no evidence. Never hide errors, warnings, changed state, security-relevant output, test summaries, or evidence needed to diagnose a failure.
@@ -116,6 +116,8 @@ Correctness, auditability, security, traceability, and required verification tak
 8. **Dependency minimization.** Prefer repository, language, runtime, or OS-native capabilities when they satisfy the requirement cleanly.
 
 Any optimization that reduces context/token use while reducing correctness, verification strength, or traceability is a regression.
+
+Treat external agent tooling as a reference implementation until a bounded experiment establishes a specific capability gap, security/maintenance risk, integration cost, measurable success criteria, and a comparison with the existing baseline. Never install it automatically or make it authoritative merely because it reduces tokens.
 
 ## 13. Repository Intelligence and Graphify Pilot
 
@@ -153,6 +155,8 @@ Capture when observable: story, project, agent/client, requested/runtime model a
 When directly and reliably observable, execution timestamps, deterministically derived elapsed time, and requested/runtime model or priority configuration MUST be recorded. Use null only when the source does not expose the value reliably; never infer, substitute, or backfill it.
 
 Keep these measures distinct: observed bytes/context avoided; locally estimated token reduction; provider-reported token usage; and estimated monetary savings. Never present local estimates as provider-billed usage or savings, and use `null` rather than inventing evidence.
+
+When reliably available, optional retry and human-correction counts may be recorded. Derived indicators such as context/output reduction percentage, tokens per completed or accepted story, retries per story, human corrections per story, and cost per accepted story require comparable, observable inputs; they are not substitutes for correctness or evidence and must not be reported when inputs are unavailable.
 
 Use controlled cohorts with identical acceptance criteria and verification gates:
 
