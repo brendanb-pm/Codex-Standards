@@ -185,6 +185,40 @@
       ],
       "measurement_objective": "Measure whether approved-capability reuse and minimum-agent, durable-handoff discipline reduce duplicated implementation, coordination failure, unnecessary file changes, elapsed time, and rework without weakening verification.",
       "notes": "EFF v2, deterministic model routing, independent verification, Evidence-Based Performance, and Delivery Closeout remain unchanged. No reviewed third-party repository or universal tool dependency was adopted. This event begins at f2454f059c2a8f6bb85338f33caae83852710fb1; the append-only event-record commit is a descendant minor revision in the same era."
+    },
+    {
+      "change_id": "STANDARDS-2026-09-22-AGENTIC-DISCIPLINE-CONTEXT-EFFICIENCY",
+      "effective_date": "2026-09-22",
+      "previous_standards_sha": "ab404873b649a9b1a53d3a221de23efce7074afc",
+      "new_standards_sha": "6e696938e755672a3645102469928c0598342612",
+      "title": "Agentic Development Discipline and Context Efficiency",
+      "summary": "Refined pre-implementation readiness, smallest-sufficient implementation, surgical scope, goal-driven verification, concise evidence reporting, durable cross-session checkpoints, progressive retrieval, and optional observable retry/human-correction telemetry.",
+      "change_categories": [
+        "agentic_execution",
+        "context",
+        "efficiency",
+        "telemetry",
+        "verification",
+        "governance"
+      ],
+      "affected_measurements": [
+        "files_inspected",
+        "repeated_file_reads",
+        "command_tool_calls",
+        "retries",
+        "human_corrections",
+        "unrelated_file_rate",
+        "verification_pass_rate",
+        "rework"
+      ],
+      "files_affected": [
+        "Codex-Standards.md",
+        "Codex-Efficiency-Standards.md",
+        "modules/AGENTIC-OPERATIONS.md",
+        "telemetry/context-efficiency-measurement.schema.json"
+      ],
+      "measurement_objective": "Measure whether disciplined planning, scope control, retrieval, and optional observable retry/correction evidence reduce avoidable context and rework without weakening correctness, security, verification, or traceability.",
+      "notes": "EFF v2 is unchanged. The context-efficiency schema adds only optional backward-compatible fields; unavailable values remain null. No external tool, memory system, planner, or parallel telemetry format was adopted. This event begins at 6e696938e755672a3645102469928c0598342612; the append-only event-record commit is a descendant minor revision in the same era."
     }
   ]
 }
