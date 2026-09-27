@@ -10,6 +10,8 @@ Obtain explicit human authorization before destructive data operations, irrevers
 
 Autonomous authority is proportional to demonstrated procedural reliability and task risk. New procedures with meaningful mutation risk begin supervised. Broader authority may follow deterministic evidence of correct trigger recognition, scope control, verification, escalation, audit evidence, and failure recovery. Human-validation zones remain human-controlled.
 
+For explicitly authorized unattended Level 2 or Level 3 delivery, load `AUTONOMOUS-DELIVERY.md`. It defines the eligibility gate, terminal outcomes, autonomy levels, bounded retry, qualification, and authority separation; it does not weaken this module's Human Validation Zones or least-authority rules.
+
 Limit access to the assigned repository/worktree and story surface. Do not access production credentials, mutate unrelated repositories, or use destructive operations outside the authorized scope. Broader access requires an execution need and explicit authorization.
 
 ## Context recovery and session hygiene

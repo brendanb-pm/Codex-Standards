@@ -140,6 +140,7 @@ Select applicable modules **before substantive execution** from the known task s
 - `modules/PRODUCTION-EXTERNAL-SYSTEMS.md` — deployment, credentials, production mutation, external providers, webhooks, watches, polling, provider reconciliation.
 - `modules/LONG-SPEC-TRANSFER.md` — large/chunked requirement transfer or prompt-integrity assembly.
 - `modules/AGENTIC-OPERATIONS.md` — high-risk authority decisions, recovery/handoff, parallel implementation, reusable procedure design, or new-project initialization.
+- `modules/AUTONOMOUS-DELIVERY.md` — explicitly authorized unattended Level 2 or Level 3 story delivery, autonomy qualification, or an orchestrator eligibility decision.
 - `modules/DELIVERY-CLOSEOUT.md` — substantive tracked story/sprint control-plane read, closeout, or reconciliation.
 - `Codex-Efficiency-Standards.md` — context/retrieval policy, compute/context audit, unusually large tasks, repeated agent inefficiency, or explicit efficiency tuning.
 
