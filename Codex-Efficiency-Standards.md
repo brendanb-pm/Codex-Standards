@@ -148,15 +148,15 @@ Evaluate cached rereads, scoped reads, command compression, reversibility, secur
 
 ## 15. Context-Efficiency Measurement and Experiments
 
-`telemetry/context-efficiency-measurement.schema.json` defines optional enrichment records for the AI-delivery ledger. Its `schema_version` is independent of the EFF delivery-record `v` field. It complements EFF v2; do not add fields to EFF v2 or fabricate unavailable values.
+`telemetry/context-efficiency-measurement.schema.json` defines optional prospective enrichment records for the AI-delivery ledger. Its `schema_version` is independent of the EFF delivery-record `v` field. It complements EFF v2; do not add fields to EFF v2 or fabricate unavailable values.
 
-Capture when observable: story, project, agent/client, requested/runtime model and reasoning configuration, cohort, files inspected, repeated file reads, broad searches, graph/index queries, command/tool calls, raw bytes produced, bytes returned to the model, locally estimated input tokens, cached input tokens, output tokens, expansion/retrieval events, elapsed time, test/acceptance/correctness results, human rework, commit SHA, and standards SHA.
+For each substantive run, the canonical EFF v2 delivery record plus this linked enrichment capture project/story, attempt/run type, agent/client, requested and runtime model/priority, execution tier/mode, declared verification scope, standards SHA, repository outcome, and the relevant context, tool, retry, token, timing, test, acceptance, correctness, rework, and commit evidence. Reusing the EFF identity avoids a second run-telemetry format. `input_tokens`, `cached_input_tokens`, `output_tokens`, `reasoning_tokens`, and `agent`/`subagent` turns are observed only when their collector exposes them. `total_tokens` is derived only from non-overlapping observed components with recorded provenance; otherwise it is null.
 
-When directly and reliably observable, execution timestamps, deterministically derived elapsed time, and requested/runtime model or priority configuration MUST be recorded. Use null only when the source does not expose the value reliably; never infer, substitute, or backfill it.
+Each measured field is classified `OBSERVED`, `DERIVED`, or `NOT AVAILABLE`; a Notion row may be `MIXED` only when it contains more than one field class. When directly and reliably observable, execution timestamps, deterministically derived elapsed time, and requested/runtime model or priority configuration MUST be recorded. Never infer, substitute, or backfill unavailable values.
 
 Keep these measures distinct: observed bytes/context avoided; locally estimated token reduction; provider-reported token usage; and estimated monetary savings. Never present local estimates as provider-billed usage or savings, and use `null` rather than inventing evidence.
 
-When reliably available, optional retry and human-correction counts may be recorded. Derived indicators such as context/output reduction percentage, tokens per completed or accepted story, retries per story, human corrections per story, and cost per accepted story require comparable, observable inputs; they are not substitutes for correctness or evidence and must not be reported when inputs are unavailable.
+Reuse the existing retry count for total retries. Record mechanical retries, human corrections, and rework only when the source establishes them. Derived indicators such as cache ratio, reasoning-token ratio, tokens per changed file/line, tokens per successful work unit, tokens per verification failure, tokens per attempt, context/output reduction percentage, and cost per accepted story require comparable, observable denominators. They are not quality measures by themselves and must not be reported when inputs are unavailable.
 
 Use controlled cohorts with identical acceptance criteria and verification gates:
 
@@ -165,3 +165,13 @@ Use controlled cohorts with identical acceptance criteria and verification gates
 - `GRAPH_CONTEXT_OPTIMIZATION` — this standard plus Graphify and LeanCTX.
 
 Compare efficiency and correctness. A cohort is not superior merely because it uses fewer tokens, bytes, reads, or calls; it must retain acceptance, verification, and supported later-outcome quality.
+
+## 16. Telemetry Health and Analysis
+
+Each collector/environment defines the fields it is expected to expose and records source provenance. `NOT AVAILABLE` is normal only when the runtime never exposes a field or the collector is not configured to capture it. A missing metric is never zero.
+
+If a field expected for the current environment becomes missing after previously available evidence, mark `TELEMETRY HEALTH: DEGRADED`; identify affected fields, last known-good evidence when available, raw collection evidence, and the likely runtime/API/schema/tooling change. Pause automated efficiency conclusions that depend on the degraded field until the collection path is reevaluated. Product/delivery status remains independent: optional telemetry loss does not fail a product delivery unless telemetry is itself acceptance scope.
+
+Analyze raw measures by model × requested priority × tier × mode × run type × outcome, and segment further by project, work class, verification scope, and standards era when comparable. Do not create a composite efficiency score or infer causation from a before/after change. The canonical Notion **AI Delivery — Story Metrics** database and **AI Delivery Efficiency & ROI** surface remain the single efficiency control plane; retain existing records and views.
+
+Codex-Standards maintenance is excluded from product ROI cohorts. Record a material standards/control-plane optimization as an intervention with its effective SHA and date, then compare later comparable product runs; do not claim savings merely because standards text changed.

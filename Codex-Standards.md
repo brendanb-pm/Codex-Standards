@@ -62,9 +62,11 @@ For sufficiently complex work involving multiple services or trust boundaries, a
 
 Keep execution reports concise and action-oriented. Use the equivalent of `STATUS`, `CHANGES`, `VERIFICATION`, `EVIDENCE`, `RISKS/BLOCKERS`, and `NEXT ACTION` when those headings improve clarity. Omit routine-command narration, filler, and already-established facts, but retain the reasoning needed to substantiate architecture decisions, security decisions, failure analysis, or other material evidence. Human-facing documentation optimizes for comprehension, not minimum token count.
 
-## 4. Deterministic Model / Priority Selection
+## 4. Deterministic Execution Profile Selection
 
-Select the model and priority **once before execution**. After selection, do not continue discussing, reconsidering, or narrating model choice during the run.
+The upstream prompt-generation/control-plane layer selects the execution profile **once before execution**: `requested_model`, `requested_priority`/reasoning effort, `execution_mode` (`DIRECT` or `PLAN`), `execution_tier`, and a bounded `verification_scope`. Codex receives and obeys that profile; it must not silently enter Plan mode or materially increase model, priority, authority, or verification cost on its own. If the profile is inadequate, preserve evidence and use the restart/escalation rule below.
+
+`DIRECT` is normally appropriate for T0/T1 work with established scope and acceptance. `PLAN` is selected upstream when unresolved architecture, risk, dependencies, or acceptance need an implementation path before mutation. High rigor means the controls justified by actual risk, not maximum work on every task.
 
 **Execution-profile stability:** Once substantive execution begins, keep the selected model, priority/effort, execution mode, loaded standards modules, and core tool surface stable for that run when practical. Do not toggle configuration merely to seek incremental compute savings. If newly discovered scope requires a materially different execution profile, preserve completed work and restart at a clean boundary rather than repeatedly mutating the active session.
 
@@ -82,10 +84,14 @@ All must be true:
 
 Use: **least-cost reliable coding model + Low priority**.
 
+Default execution: `DIRECT`; use the minimum relevant context, targeted deterministic validation, and no unrelated module or broad-regression loading unless a trigger requires it.
+
 ### T1 — Bounded implementation
 Default tier when T0, T2, and T3 do not apply. Typical examples: localized bug fixes, normal bounded features, routine tests, or one-subsystem implementation.
 
 Use: **standard reliable coding model + Medium priority**.
+
+Default execution: normally `DIRECT`, with focused validation plus applicable repository gates.
 
 ### T2 — High-risk but bounded
 Use when exactly one high-risk trigger below applies and the requirement/root cause/change surface is otherwise well understood and bounded:
@@ -95,6 +101,8 @@ Use when exactly one high-risk trigger below applies and the requirement/root ca
 - concurrency, idempotency, uncertain mutation outcome, or broad compatibility contract.
 
 Use: **strong coding/reasoning model + Medium priority**.
+
+Use `PLAN` only when the upstream profile identifies unresolved risk or design work that needs it; otherwise keep the bounded execution direct and verify proportionally.
 
 ### T3 — High-risk and complex
 Use when any high-risk trigger applies **and** at least one of these is also true:
@@ -106,6 +114,8 @@ Use when any high-risk trigger applies **and** at least one of these is also tru
 
 Use: **strong coding/reasoning model + High priority**.
 
+The upstream profile normally selects `PLAN` and rigorous risk-specific verification; Human Validation Zones and conditional modules still govern consequential work.
+
 ChatGPT maps `least-cost`, `standard`, and `strong` to the current available model family at brief-generation time. Do not hard-bind this standard to permanent model names.
 
 Every brief contains exactly one concise selection line:
@@ -114,6 +124,8 @@ Every brief contains exactly one concise selection line:
 MODEL / PRIORITY
 <Model> — <Priority>
 ```
+
+When known, the same brief also states `EXECUTION MODE`, `EXECUTION TIER`, and `VERIFICATION SCOPE` compactly. These are routing controls, not invitations to expand scope.
 
 Do not add change-alert headers or compare against the previous brief.
 
@@ -156,7 +168,7 @@ For substantive work, report which modules were loaded in one compact line or in
 
 Before modifying code, establish the objective, authoritative acceptance criteria, affected system boundaries, known constraints, assumptions, security/data implications, and expected verification. Resolve material uncertainty rather than silently choosing an interpretation. If ambiguity could materially alter architecture, security, data behavior, compatibility, or acceptance, surface it before implementation.
 
-For sufficiently complex, underspecified, risky, or multi-system work, use the available planning mechanism to propose and review an implementation path before edits. Planning defines the approach; the goal and acceptance criteria define the required outcome. Do not create a competing planning framework for work that the existing mechanism can plan adequately.
+When the upstream execution profile is `PLAN`, use the available planning mechanism to propose and review an implementation path before edits. If direct execution reveals that planning is required for safety or reliability, do not self-escalate: preserve evidence and request a restarted `PLAN` profile. Planning defines the approach; the goal and acceptance criteria define the required outcome. Do not create a competing planning framework for work that the existing mechanism can plan adequately.
 
 Unless the task requires otherwise:
 
@@ -315,6 +327,7 @@ Rules:
     than fabricated at completion.
 16. Use null for unavailable evidence. Absence of evidence is not zero.
 17. The EFF line is telemetry, not a second narrative completion report.
+18. The optional context-efficiency enrichment record carries execution mode, declared verification scope, token and turn telemetry, and telemetry-health evidence. It complements rather than changes EFF v2.
 
 ChatGPT/orchestration may combine the EFF line with prompt metadata, Git/CI evidence,
 PR metadata, and later acceptance outcomes and write the resulting record to the
