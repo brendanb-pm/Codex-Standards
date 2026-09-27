@@ -253,6 +253,44 @@
       ],
       "measurement_objective": "Measure whether explicitly bounded autonomous delivery improves independently verified closeout and safe stopping without weakening Human Validation Zones, evidence, or control-plane integrity.",
       "notes": "EFF v2 is unchanged. Eligibility disposition, authorization-package identity, intervention count, terminal-outcome classification, independent-verification provenance, and complete safe-stop detail are telemetry gaps unless durable control-plane, handoff, or reconciliation evidence supplies them. This event begins at 79e27cab42c3ed22cb4a0ac28f8f51a1c65d197a; the append-only event-record commit is a descendant minor revision in the same era."
+    },
+    {
+      "change_id": "STANDARDS-2026-09-27-COMPUTE-TELEMETRY-HARDENING",
+      "effective_date": "2026-09-27",
+      "previous_standards_sha": "cbd5d79c733a91c47e290be55aab68d68ca16f96",
+      "new_standards_sha": "2e685312396e6a40be96db68ed95e26232913813",
+      "title": "Proportional Execution and Compute Telemetry Hardening",
+      "summary": "Formalized upstream execution profiles, made T0/T1 direct execution explicit, retained risk-proportional high-rigor controls, and extended prospective context-efficiency telemetry with routing, token, turn, and degradation evidence.",
+      "change_categories": [
+        "efficiency",
+        "telemetry",
+        "agentic_execution",
+        "verification",
+        "governance"
+      ],
+      "affected_measurements": [
+        "requested_model",
+        "requested_priority",
+        "runtime_model",
+        "runtime_priority",
+        "execution_tier",
+        "execution_mode",
+        "input_tokens",
+        "cached_input_tokens",
+        "reasoning_tokens",
+        "total_tokens",
+        "agent_turns",
+        "subagent_turns",
+        "verification_failure_rate",
+        "elapsed_sec"
+      ],
+      "files_affected": [
+        "Codex-Standards.md",
+        "Codex-Efficiency-Standards.md",
+        "telemetry/context-efficiency-measurement.schema.json"
+      ],
+      "measurement_objective": "Test whether risk-proportional execution profiles reduce unnecessary context, reasoning, and verification work while preserving acceptance, security, deterministic evidence, and rework outcomes.",
+      "notes": "EFF v2 remains unchanged. Schema version 2 is backward-compatible with version 1 records and captures values only when observable or deterministically derived with provenance. TELEMETRY HEALTH: DEGRADED distinguishes unexpected loss of an expected field from normal NOT AVAILABLE telemetry. This event begins at 2e685312396e6a40be96db68ed95e26232913813; the append-only event-record commit is a descendant minor revision in the same era. No token or compute saving is claimed before comparable post-change evidence exists."
     }
   ]
 }
