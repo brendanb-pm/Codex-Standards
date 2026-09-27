@@ -219,6 +219,40 @@
       ],
       "measurement_objective": "Measure whether disciplined planning, scope control, retrieval, and optional observable retry/correction evidence reduce avoidable context and rework without weakening correctness, security, verification, or traceability.",
       "notes": "EFF v2 is unchanged. The context-efficiency schema adds only optional backward-compatible fields; unavailable values remain null. No external tool, memory system, planner, or parallel telemetry format was adopted. This event begins at 6e696938e755672a3645102469928c0598342612; the append-only event-record commit is a descendant minor revision in the same era."
+    },
+    {
+      "change_id": "STANDARDS-2026-09-27-BOUNDED-AUTONOMOUS-DELIVERY",
+      "effective_date": "2026-09-27",
+      "previous_standards_sha": "a7fd180cf94cc23727fb57382b4e72ae3f71d3f9",
+      "new_standards_sha": "79e27cab42c3ed22cb4a0ac28f8f51a1c65d197a",
+      "title": "Bounded Autonomous Delivery and Orchestrator Qualification",
+      "summary": "Defined explicitly authorized unattended delivery terminal outcomes, autonomy levels, eligibility, authority separation, independent acceptance, bounded retry, capability escalation, qualification, and durable recovery using existing delivery and agentic-operation contracts.",
+      "change_categories": [
+        "autonomy",
+        "agentic_execution",
+        "verification",
+        "control_plane",
+        "recovery",
+        "governance"
+      ],
+      "affected_measurements": [
+        "attempts_per_story",
+        "verification_failure_rate",
+        "blocked_rate",
+        "full_closeout_rate",
+        "control_plane_sync_failure_rate",
+        "eff_persistence_completeness",
+        "tier_distribution",
+        "rework"
+      ],
+      "files_affected": [
+        "Codex-Standards.md",
+        "modules/AGENTIC-OPERATIONS.md",
+        "modules/AUTONOMOUS-DELIVERY.md",
+        "modules/Readme.md"
+      ],
+      "measurement_objective": "Measure whether explicitly bounded autonomous delivery improves independently verified closeout and safe stopping without weakening Human Validation Zones, evidence, or control-plane integrity.",
+      "notes": "EFF v2 is unchanged. Eligibility disposition, authorization-package identity, intervention count, terminal-outcome classification, independent-verification provenance, and complete safe-stop detail are telemetry gaps unless durable control-plane, handoff, or reconciliation evidence supplies them. This event begins at 79e27cab42c3ed22cb4a0ac28f8f51a1c65d197a; the append-only event-record commit is a descendant minor revision in the same era."
     }
   ]
 }
